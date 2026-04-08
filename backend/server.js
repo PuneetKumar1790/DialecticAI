@@ -10,11 +10,33 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+function normalizeOrigin(origin) {
+  return origin?.trim().replace(/\/$/, "");
+}
+
+const rawAllowedOrigins =
+  process.env.FRONTEND_URLS || process.env.FRONTEND_URL || "http://localhost:5173";
+
+const allowedOrigins = rawAllowedOrigins
+  .split(",")
+  .map((origin) => normalizeOrigin(origin))
+  .filter(Boolean);
+
 // Middleware
 app.use(express.json());
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    origin: (origin, callback) => {
+      // Allow non-browser and same-origin requests that may not send Origin.
+      if (!origin) return callback(null, true);
+
+      const normalizedOrigin = normalizeOrigin(origin);
+      if (allowedOrigins.includes(normalizedOrigin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error(`CORS blocked for origin: ${origin}`));
+    },
     credentials: true
   })
 );
@@ -41,4 +63,5 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV}`);
+  console.log(`Allowed CORS origins: ${allowedOrigins.join(", ")}`);
 });

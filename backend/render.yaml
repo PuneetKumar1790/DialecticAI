@@ -15,5 +15,5 @@ services:
         sync: false
       - key: GEMINI_API_KEY
         sync: false
-      - key: FRONTEND_URL
-        value: https://your-frontend-domain.com
+      - key: FRONTEND_URLS
+        value: https://your-frontend-domain.vercel.app
