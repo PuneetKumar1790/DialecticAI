@@ -1,0 +1,75 @@
+.philosopher-grid {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.philosopher-card {
+  text-align: left;
+  border: 1px solid var(--border);
+  border-left: 2px solid transparent;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  padding: 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, opacity 0.2s ease;
+  opacity: 0.65;
+}
+
+.philosopher-card.selected {
+  opacity: 1;
+}
+
+.philosopher-card:hover {
+  border-color: var(--border-hover);
+  opacity: 0.92;
+}
+
+.philosopher-topline {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.philosopher-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.philosopher-topline h3 {
+  margin: 0;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+}
+
+.philosopher-title {
+  margin: 0.25rem 0;
+  color: var(--text-secondary);
+}
+
+.philosopher-tagline {
+  margin: 0.2rem 0;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+}
+
+.philosopher-era {
+  color: var(--text-hint);
+  font-size: 0.88rem;
+}
+
+.mode-actions {
+  margin-top: 1.2rem;
+  display: flex;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .philosopher-grid {
+    grid-template-columns: 1fr;
+  }
+}

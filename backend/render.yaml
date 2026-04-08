@@ -1,0 +1,19 @@
+# Deploy configuration for Render
+# Documentation: https://render.com/docs
+
+services:
+  - type: web
+    name: dialecticai-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: FRONTEND_URL
+        value: https://your-frontend-domain.com

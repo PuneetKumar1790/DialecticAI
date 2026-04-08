@@ -1,0 +1,54 @@
+.input-panel-wrap {
+  margin-top: 0.8rem;
+}
+
+.input-mode-toggle {
+  margin-top: 0.8rem;
+  display: inline-flex;
+  border: 1px solid var(--border);
+}
+
+.input-mode-toggle button {
+  border: 0;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  padding: 0.55rem 0.95rem;
+  cursor: pointer;
+}
+
+.input-mode-toggle button.active {
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.quick-mode textarea,
+.deep-mode textarea,
+.deep-mode input {
+  margin-top: 0.3rem;
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  padding: 0.72rem;
+  font-size: 0.98rem;
+  resize: vertical;
+}
+
+.quick-mode {
+  margin-top: 0.95rem;
+}
+
+.deep-mode {
+  margin-top: 0.95rem;
+  display: grid;
+  gap: 0.68rem;
+}
+
+.deep-mode label {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.ask-btn {
+  margin-top: 1rem;
+}

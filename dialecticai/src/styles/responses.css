@@ -1,0 +1,347 @@
+.responses-wrap {
+  margin-top: 0.5rem;
+}
+
+.responses-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.response-card {
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  opacity: 0.92;
+}
+
+.response-card.loaded {
+  animation: fade-in 0.28s ease;
+}
+
+.response-card-header {
+  border-left: 2px solid transparent;
+  padding: 0.8rem 0.8rem 0.65rem;
+}
+
+.response-card-header h3 {
+  margin: 0;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+}
+
+.response-card-header span {
+  color: var(--text-secondary);
+  font-size: 0.94rem;
+}
+
+.response-card-body {
+  border-top: 1px solid var(--border);
+  padding: 0.85rem;
+}
+
+.response-text {
+  margin: 0;
+  font-family: "Lora", serif;
+  font-size: 15px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+.response-error p {
+  margin: 0 0 0.65rem;
+  color: var(--text-secondary);
+}
+
+.response-skeleton-wrap {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.response-skeleton {
+  width: 100%;
+  height: 88px;
+  background: linear-gradient(90deg, #1f1f1f 0%, #252525 50%, #1f1f1f 100%);
+  background-size: 220% 100%;
+  animation: shimmer 1.2s linear infinite;
+}
+
+.response-loading-line {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.86rem;
+}
+
+.lens-label {
+  margin: 0 0 0.45rem;
+  font-size: 10px;
+  font-variant: small-caps;
+  letter-spacing: 0.12em;
+  text-transform: lowercase;
+}
+
+.go-deeper-btn {
+  margin-top: 16px;
+  border: 0;
+  border-top: 0.5px solid #2a2a2a;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: "DM Sans", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 10px 0;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.go-deeper-btn:hover {
+  opacity: 0.8;
+}
+
+.go-deeper-chat-wrap {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 120px);
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.go-deeper-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 0 16px 0;
+  border-bottom: 0.5px solid #2a2a2a;
+  margin-bottom: 8px;
+}
+
+.go-deeper-back {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0;
+  margin-right: auto;
+  font-family: "DM Sans", sans-serif;
+}
+
+.go-deeper-back:hover {
+  color: var(--text-primary);
+}
+
+.go-deeper-philosopher-info {
+  text-align: right;
+}
+
+.go-deeper-name {
+  margin: 0;
+  font-family: "Playfair Display", serif;
+  font-size: 16px;
+  font-style: italic;
+  color: var(--text-primary);
+}
+
+.go-deeper-title {
+  margin: 0;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.go-deeper-color-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.go-deeper-disclaimer {
+  font-size: 10px;
+  color: var(--text-hint);
+  text-align: center;
+  padding: 8px 0 12px;
+  border-bottom: 0.5px solid #1a1a1a;
+  margin: 0 0 16px;
+}
+
+.go-deeper-messages {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0 0 16px 0;
+  scrollbar-width: thin;
+  scrollbar-color: #2a2a2a transparent;
+}
+
+.go-deeper-toast {
+  margin: 0;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-hint);
+}
+
+.message-user {
+  align-self: flex-end;
+  background: #1e1e1e;
+  border: 0.5px solid #2a2a2a;
+  border-radius: 12px 12px 2px 12px;
+  padding: 10px 14px;
+  max-width: 75%;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  font-family: "DM Sans", sans-serif;
+  white-space: pre-wrap;
+}
+
+.message-user-initial {
+  opacity: 0.88;
+}
+
+.message-user-label {
+  margin: 0 0 4px;
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+.message-philosopher {
+  align-self: flex-start;
+  max-width: 85%;
+  padding-left: 14px;
+  border-left: 2px solid var(--border-hover);
+}
+
+.message-philosopher-label {
+  margin: 0 0 6px;
+  font-size: 10px;
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+}
+
+.message-philosopher-text {
+  margin: 0;
+  font-family: "Lora", serif;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text-primary);
+  white-space: pre-wrap;
+}
+
+.message-philosopher-text.loading {
+  color: var(--text-hint);
+  font-style: italic;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.go-deeper-input-bar {
+  border-top: 0.5px solid #2a2a2a;
+  padding-top: 16px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.go-deeper-textarea {
+  flex: 1;
+  background: #141414;
+  border: 0.5px solid #2a2a2a;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 14px;
+  color: var(--text-primary);
+  resize: none;
+  min-height: 42px;
+  max-height: 100px;
+  line-height: 1.5;
+  outline: none;
+}
+
+.go-deeper-textarea:focus {
+  border-color: #3a3a3a;
+}
+
+.go-deeper-send {
+  background: transparent;
+  border: 0.5px solid #3a3a3a;
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  padding: 10px 16px;
+  cursor: pointer;
+  white-space: nowrap;
+  height: 42px;
+  transition: all 0.15s;
+}
+
+.go-deeper-send:hover:not(:disabled) {
+  color: var(--text-primary);
+  border-color: #4a4a4a;
+}
+
+.go-deeper-send:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.synthesis-block {
+  margin-top: 1rem;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.synthesis-block.visible {
+  opacity: 1;
+}
+
+.synthesis-separator {
+  height: 1px;
+  background: var(--border-hover);
+  margin-bottom: 0.72rem;
+}
+
+.synthesis-label {
+  margin: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  color: var(--text-hint);
+}
+
+.synthesis-text {
+  margin-top: 0.5rem;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  line-height: 1.75;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 0% 0;
+  }
+  to {
+    background-position: 220% 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
