@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react"
-import { callGroqChat } from "../api/groq"
+import { generateChatResponse } from "../api/backend-client"
 import { LOADING_LINES } from "./ResponseCard"
 
 const PLACEHOLDER_CYCLES = {
@@ -168,7 +168,11 @@ export default function GoDeeper({
         ? [nextMessages[0], nextMessages[1], ...nextMessages.slice(-10)]
         : nextMessages
 
-      const reply = await callGroqChat(philosopher.systemPrompt, nextTrimmed)
+      const reply = await generateChatResponse(
+        philosopher.id,
+        philosopher.systemPrompt,
+        nextTrimmed
+      )
       setMessages(prev => [...prev, {
         role: "assistant",
         content: reply || "This philosopher refused to answer."
@@ -185,7 +189,11 @@ export default function GoDeeper({
     setIsLoading(true)
 
     try {
-      const reply = await callGroqChat(philosopher.systemPrompt, trimmedMessages)
+      const reply = await generateChatResponse(
+        philosopher.id,
+        philosopher.systemPrompt,
+        trimmedMessages
+      )
       setMessages(prev => [...prev, {
         role: "assistant",
         content: reply || "This philosopher refused to answer."
