@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import CATEGORIES from "./data/philosophers"
 import { generateResponse, generateChatResponse } from "./api/backend-client"
 import CategoryGrid from "./components/CategoryGrid"
@@ -13,6 +13,7 @@ import FeedbackModal from "./components/FeedbackModal"
 
 const MAX_ROUNDS = 5
 const MIN_QUICK_CHARS = 20
+const FEEDBACK_MODAL_DELAY_MS = 8000
 const FORMAT_RULES = {
   socrates: "Respond in questions only. Zero statements.",
   diogenes: "Short sentences. Maximum 6 words each where possible. Be brutal.",
@@ -68,8 +69,10 @@ export default function App() {
   const [validationErrors, setValidationErrors] = useState({})
 
   const [showFeedbackModal, setShowFeedbackModal] = useState(false)
-  const [feedbackSessionCompleted, setFeedbackSessionCompleted] = useState(false)
-  const [goDeeperMessageCount, setGoDeeperMessageCount] = useState(0)
+  const [feedbackEligible, setFeedbackEligible] = useState(false)
+  const [feedbackAutoShown, setFeedbackAutoShown] = useState(false)
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false)
+  const feedbackModalTimerRef = useRef(null)
 
   const category = useMemo(() => CATEGORIES[selectedCategoryKey], [selectedCategoryKey])
   const selectedPhilosophers = useMemo(() => {
@@ -123,7 +126,32 @@ export default function App() {
     }, 2500)
   }
 
+  function clearFeedbackModalTimer() {
+    if (!feedbackModalTimerRef.current) return
+    window.clearTimeout(feedbackModalTimerRef.current)
+    feedbackModalTimerRef.current = null
+  }
+
+  function scheduleFeedbackModal() {
+    if (feedbackAutoShown || feedbackSubmitted) return
+
+    setFeedbackAutoShown(true)
+    clearFeedbackModalTimer()
+
+    feedbackModalTimerRef.current = window.setTimeout(() => {
+      setShowFeedbackModal(true)
+      feedbackModalTimerRef.current = null
+    }, FEEDBACK_MODAL_DELAY_MS)
+  }
+
+  function activateFeedbackPrompt() {
+    if (feedbackEligible) return
+    setFeedbackEligible(true)
+    scheduleFeedbackModal()
+  }
+
   function resetOutputState() {
+    clearFeedbackModalTimer()
     setResponses({})
     setSynthesis("")
     setSynthesisLoading(false)
@@ -132,8 +160,9 @@ export default function App() {
     setDebateLoading(false)
     setVerdict("")
     setShowFeedbackModal(false)
-    setFeedbackSessionCompleted(false)
-    setGoDeeperMessageCount(0)
+    setFeedbackEligible(false)
+    setFeedbackAutoShown(false)
+    setFeedbackSubmitted(false)
   }
 
   function handleCategorySelect(key) {
@@ -313,16 +342,18 @@ export default function App() {
   ])
 
   useEffect(() => {
-    if (step !== "perspectives" || !synthesis || feedbackSessionCompleted) return
-    setShowFeedbackModal(true)
-    setFeedbackSessionCompleted(true)
-  }, [step, synthesis, feedbackSessionCompleted])
+    if (step !== "perspectives" || !synthesis) return
+    activateFeedbackPrompt()
+  }, [step, synthesis, feedbackEligible])
 
   useEffect(() => {
-    if (step !== "debate" || !verdict || feedbackSessionCompleted) return
-    setShowFeedbackModal(true)
-    setFeedbackSessionCompleted(true)
-  }, [step, verdict, feedbackSessionCompleted])
+    if (step !== "debate" || !verdict) return
+    activateFeedbackPrompt()
+  }, [step, verdict, feedbackEligible])
+
+  useEffect(() => {
+    return () => clearFeedbackModalTimer()
+  }, [])
 
   async function runDebateRound(nextRound, questionText, existingMessages) {
     setDebateLoading(true)
@@ -477,10 +508,12 @@ export default function App() {
   }
 
   function handleGoDeeperSixMessages() {
-    if (!feedbackSessionCompleted) {
-      setShowFeedbackModal(true)
-      setFeedbackSessionCompleted(true)
-    }
+    activateFeedbackPrompt()
+  }
+
+  function handleOpenFeedbackModal() {
+    clearFeedbackModalTimer()
+    setShowFeedbackModal(true)
   }
 
   useEffect(() => {
@@ -684,12 +717,21 @@ export default function App() {
         </section>
       )}
 
+      {feedbackEligible && !feedbackSubmitted && !showFeedbackModal && (step === "perspectives" || step === "debate" || step === "goDeeper") && (
+        <div className="feedback-reopen-wrap">
+          <button type="button" className="feedback-reopen-btn" onClick={handleOpenFeedbackModal}>
+            Rate this answer
+          </button>
+        </div>
+      )}
+
       <FeedbackModal
         isOpen={showFeedbackModal}
         selectedPhilosophers={selectedPhilosophers}
         category={category?.name || ""}
         sessionType={responseModeLabel}
         onClose={() => setShowFeedbackModal(false)}
+        onSubmitted={() => setFeedbackSubmitted(true)}
       />
       </div>
 

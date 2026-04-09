@@ -7,7 +7,8 @@ export default function FeedbackModal({
   selectedPhilosophers,
   category,
   sessionType,
-  onClose
+  onClose,
+  onSubmitted
 }) {
   const [starRating, setStarRating] = useState(0)
   const [comment, setComment] = useState("")
@@ -55,6 +56,7 @@ export default function FeedbackModal({
       }
 
       setSubmitted(true)
+      onSubmitted?.()
       setTimeout(onClose, 1800)
     } catch (err) {
       console.error("Feedback submission error:", err)

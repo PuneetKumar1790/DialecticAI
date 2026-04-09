@@ -439,6 +439,31 @@ a:focus-visible {
   margin-top: auto;
 }
 
+.feedback-reopen-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 18px 0 12px;
+}
+
+.feedback-reopen-btn {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: "DM Sans", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: border-color 160ms ease, color 160ms ease;
+}
+
+.feedback-reopen-btn:hover {
+  border-color: var(--accent-warm);
+  color: var(--accent-warm);
+}
+
 .app-footer-credit {
   font-family: "DM Sans", sans-serif;
   font-size: 13px;
