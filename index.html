@@ -1210,7 +1210,7 @@
   <nav class="nav" id="nav">
     <div class="nav-inner">
       <a class="brand" href="#">DialecticAI</a>
-      <a class="btn nav-cta" href="/app">
+      <a class="btn nav-cta" href="/app/">
         <span class="hide-mobile">Enter the Arena &rarr;</span>
         <span class="show-mobile">Enter &rarr;</span>
       </a>
@@ -1230,12 +1230,12 @@
         <div class="hero-question-text" id="hero-question-text"></div>
         <div class="hero-question-footer">
           <span class="hero-question-pill" id="hero-question-pill"></span>
-          <a class="hero-question-link" id="hero-question-link" href="/app">ask this &rarr;</a>
+          <a class="hero-question-link" id="hero-question-link" href="/app/">ask this &rarr;</a>
         </div>
       </div>
 
       <div class="hero-actions">
-        <a class="btn btn-primary" href="/app">Start for Free &rarr;</a>
+        <a class="btn btn-primary" href="/app/">Start for Free &rarr;</a>
         <a class="btn btn-secondary" href="#demo">Watch it work &darr;</a>
       </div>
 
@@ -1571,7 +1571,7 @@ That contradiction is more useful than any single correct answer. Because real p
     </h2>
     <p class="final-sub reveal" style="--delay: 200ms">Sixteen philosophers. Three modes. Zero cost.</p>
 
-    <a class="btn btn-primary reveal" href="/app" style="padding: 16px 40px; font-size: 15px; letter-spacing: 0.04em; --delay: 300ms">Ask the Philosophers &rarr;</a>
+    <a class="btn btn-primary reveal" href="/app/" style="padding: 16px 40px; font-size: 15px; letter-spacing: 0.04em; --delay: 300ms">Ask the Philosophers &rarr;</a>
 
     <div class="dots reveal" style="--delay: 400ms">
       <span style="--dot: var(--diogenes)"></span>
@@ -1722,7 +1722,7 @@ That contradiction is more useful than any single correct answer. Because real p
         const question = queue[index] || allQuestions[0]
         textEl.textContent = question
         pillEl.textContent = getCategoryForQuestion(question)
-        linkEl.href = `/app?q=${encodeURIComponent(question)}`
+        linkEl.href = `/app/?q=${encodeURIComponent(question)}`
         textEl.classList.toggle("hidden", !visible)
       }
 

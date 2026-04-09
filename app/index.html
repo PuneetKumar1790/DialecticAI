@@ -1,23 +1,19 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Redirecting to DialecticAI App</title>
-  <meta http-equiv="refresh" content="0; url=/" />
-  <script>
-    // Local dev should go to Vite; production should go to deployed frontend.
-    const APP_ORIGIN =
-      window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
-        ? "http://localhost:5173"
-        : "https://dialectic-ai.vercel.app";
-
-    // Preserve query params from /app?q=...
-    const target = `${APP_ORIGIN}${window.location.search || ""}`;
-    window.location.replace(target);
-  </script>
-</head>
-<body>
-  <p>Redirecting to <a href="https://dialectic-ai.vercel.app">DialecticAI app</a>...</p>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DialecticAI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Lora:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,600;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" crossorigin src="/app/assets/index-DyVsQZyS.js"></script>
+    <link rel="stylesheet" crossorigin href="/app/assets/index-Bq4rYpIN.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
 </html>
