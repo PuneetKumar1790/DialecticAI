@@ -26,6 +26,12 @@ export default function FeedbackModal({
       return
     }
 
+    if (!supabase) {
+      setError("Couldn't save. Try again?")
+      console.log("Supabase client unavailable. Missing VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY.")
+      return
+    }
+
     setSubmitting(true)
     setError("")
 
@@ -91,7 +97,7 @@ export default function FeedbackModal({
               <textarea
                 placeholder="What would make this sharper?"
                 value={comment}
-                onChange={e => setComment(e.slice(0, 300))}
+                onChange={e => setComment(e.target.value.slice(0, 300))}
                 className="feedback-textarea"
                 maxLength={300}
               />
