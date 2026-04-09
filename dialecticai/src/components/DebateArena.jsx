@@ -45,11 +45,10 @@ export default function DebateArena({
   messages,
   loading,
   onNextRound,
-  onGetVerdict,
-  canGetVerdict,
   verdict
 }) {
   const [philA, philB] = philosophers
+  const isFinalRound = round >= maxRound
 
   return (
     <section className="debate-arena">
@@ -58,7 +57,8 @@ export default function DebateArena({
         {Array.from({ length: maxRound }).map((_, index) => {
           const dotRound = index + 1
           const state = dotRound < round ? "done" : dotRound === round ? "current" : "future"
-          return <span key={dotRound} className={`round-dot ${state}`} />
+          const isFilled = dotRound <= round || (isFinalRound && dotRound === maxRound)
+          return <span key={dotRound} className={`round-dot ${state}${isFilled ? " filled" : ""}`} />
         })}
       </div>
 
@@ -88,12 +88,6 @@ export default function DebateArena({
         {round < maxRound && (
           <button type="button" className="primary-btn" disabled={loading} onClick={onNextRound}>
             Next Round →
-          </button>
-        )}
-
-        {canGetVerdict && (
-          <button type="button" className="secondary-btn" disabled={loading || !!verdict} onClick={onGetVerdict}>
-            Get Verdict
           </button>
         )}
       </div>

@@ -698,8 +698,6 @@ export default function App() {
             messages={debateMessages}
             loading={debateLoading}
             onNextRound={handleNextRound}
-            onGetVerdict={handleGetVerdict}
-            canGetVerdict={debateRound >= MAX_ROUNDS}
             verdict={verdict}
           />
         </section>

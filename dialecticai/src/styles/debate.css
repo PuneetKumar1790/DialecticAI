@@ -27,6 +27,11 @@
   border: 0.5px solid var(--border);
 }
 
+.round-dot.filled {
+  background: var(--accent-warm);
+  border-color: var(--accent-warm);
+}
+
 .round-dot.done {
   background: var(--accent-warm);
   border-color: var(--accent-warm);
