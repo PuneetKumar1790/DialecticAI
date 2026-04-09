@@ -1,0 +1,1808 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DialecticAI | No Login. No Consensus. Just Clarity.</title>
+  <meta name="description" content="History's sharpest philosophers dissect your modern problem. Truth appears in contradiction." />
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Lora:ital@1&family=Playfair+Display:ital,wght@0,600;1,400&display=swap");
+
+    :root {
+      --bg-primary: #0d0d0d;
+      --bg-secondary: #141414;
+      --bg-card: #1a1a1a;
+      --border: #2a2a2a;
+      --border-hover: #3a3a3a;
+      --text-primary: #f0ede8;
+      --text-secondary: #8a8680;
+      --text-hint: #4a4845;
+      --accent-warm: #c4a862;
+      --accent-warm-dim: #8a6a32;
+
+      --diogenes: #8b6914;
+      --socrates: #4a7fa5;
+      --nietzsche: #9b2335;
+      --aurelius: #b8860b;
+      --chanakya: #2d5a27;
+      --machiavelli: #3d3d3d;
+      --beauvoir: #6b3fa0;
+      --confucius: #8b0000;
+
+      --max-wide: 1200px;
+      --max-standard: 1000px;
+      --max-reading: 900px;
+      --ease-sharp: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: "DM Sans", sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(100%, var(--max-standard));
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    .section-heading {
+      font-family: "Playfair Display", serif;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin: 0 0 20px;
+      letter-spacing: 0.01em;
+    }
+
+    .label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--text-hint);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      user-select: none;
+      border: 0;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: var(--accent-warm);
+      color: var(--bg-primary);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 14px 32px;
+    }
+
+    .btn-primary:hover {
+      background: #d4b872;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 0.5px solid var(--border);
+      font-size: 14px;
+      font-weight: 400;
+      padding: 14px 32px;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--border-hover);
+      color: var(--text-primary);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 600ms ease-out, transform 600ms ease-out;
+      transition-delay: var(--delay, 0ms);
+    }
+
+    .reveal.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* NAV */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      z-index: 100;
+      border-bottom: 0.5px solid var(--border);
+      backdrop-filter: blur(8px);
+      background: rgba(13, 13, 13, 0);
+      transition: background 220ms ease;
+    }
+
+    .nav.solid {
+      background: rgba(13, 13, 13, 0.95);
+    }
+
+    .nav-inner {
+      max-width: var(--max-wide);
+      height: 100%;
+      margin: 0 auto;
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      font-family: "Playfair Display", serif;
+      font-style: italic;
+      font-size: 20px;
+      color: var(--accent-warm);
+      letter-spacing: 0.01em;
+    }
+
+    .nav-cta {
+      border: 0.5px solid var(--accent-warm);
+      color: var(--accent-warm);
+      background: transparent;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 9px 14px;
+    }
+
+    .nav-cta:hover {
+      background: var(--accent-warm);
+      color: var(--bg-primary);
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      padding-top: 56px;
+      display: grid;
+      place-items: center;
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      background:
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.4)),
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: auto, 80px 80px, 80px 80px;
+      background-color: var(--bg-primary);
+    }
+
+    .hero-veritas {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(120px, 20vw, 280px);
+      letter-spacing: 0.3em;
+      color: rgba(196, 168, 98, 0.04);
+      pointer-events: none;
+      user-select: none;
+      transform: translateX(0.12em);
+    }
+
+    .hero-content {
+      width: min(100%, 760px);
+      text-align: center;
+      padding: 0 24px 36px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-label,
+    .hero-line-1,
+    .hero-line-2,
+    .hero-sub,
+    .hero-actions,
+    .hero-trust {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: heroIn 700ms var(--ease-sharp) forwards;
+    }
+
+    .hero-label {
+      margin-bottom: 24px;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-hint);
+      animation-delay: 0ms;
+    }
+
+    .hero-headline {
+      margin: 0;
+      line-height: 1.05;
+      font-family: "Playfair Display", serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(42px, 7vw, 88px);
+    }
+
+    .hero-line-1 {
+      color: var(--text-primary);
+      animation-delay: 200ms;
+    }
+
+    .hero-line-2 {
+      color: var(--accent-warm);
+      animation-delay: 400ms;
+      margin-bottom: 24px;
+    }
+
+    .hero-sub {
+      max-width: 520px;
+      margin: 0 auto 48px;
+      color: var(--text-secondary);
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1.7;
+      animation-delay: 600ms;
+    }
+
+    .hero-question-showcase {
+      max-width: 600px;
+      margin: 0 auto 40px;
+      padding: 24px;
+      border: 0.5px solid var(--border);
+      border-radius: 2px;
+      background: var(--bg-card);
+      text-align: left;
+      position: relative;
+    }
+
+    .hero-question-label {
+      margin-bottom: 14px;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-hint);
+    }
+
+    .hero-question-text {
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      font-family: "Lora", serif;
+      font-style: italic;
+      font-size: 19px;
+      line-height: 1.75;
+      color: var(--text-primary);
+      opacity: 1;
+      transition: opacity 300ms ease;
+    }
+
+    .hero-question-text.hidden {
+      opacity: 0;
+    }
+
+    .hero-question-footer {
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hero-question-pill {
+      border: 0.5px solid var(--border);
+      border-radius: 100px;
+      padding: 3px 10px;
+      font-size: 10px;
+      color: var(--text-hint);
+      text-transform: lowercase;
+    }
+
+    .hero-question-link {
+      font-size: 11px;
+      color: var(--accent-warm-dim);
+      letter-spacing: 0.08em;
+      text-transform: lowercase;
+    }
+
+    .hero-question-link:hover {
+      color: var(--text-primary);
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      animation-delay: 800ms;
+      flex-wrap: wrap;
+    }
+
+    .hero-trust {
+      margin-top: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      color: var(--text-hint);
+      font-size: 11px;
+      letter-spacing: 0.01em;
+      animation-delay: 900ms;
+    }
+
+    .trust-sep {
+      width: 1px;
+      height: 12px;
+      background: var(--border);
+    }
+
+    .scroll-cue {
+      position: absolute;
+      left: 50%;
+      bottom: 16px;
+      transform: translateX(-50%);
+      text-align: center;
+      color: var(--text-hint);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      margin: 0 auto 8px;
+      background: var(--accent-warm-dim);
+      animation: pulse 1.9s ease-in-out infinite;
+    }
+
+    /* PARADE */
+    .parade {
+      background: var(--bg-secondary);
+      border-top: 0.5px solid var(--border);
+      border-bottom: 0.5px solid var(--border);
+      padding: 20px 0;
+      overflow: hidden;
+    }
+
+    .marquee-wrap {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .marquee-track {
+      width: max-content;
+      display: flex;
+      align-items: center;
+      animation: marquee 35s linear infinite;
+    }
+
+    .marquee-wrap:hover .marquee-track {
+      animation-play-state: paused;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 0 32px;
+      white-space: nowrap;
+    }
+
+    .chip .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-right: 8px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .chip-name {
+      font-family: "Playfair Display", serif;
+      font-style: italic;
+      font-size: 14px;
+      color: var(--text-primary);
+      margin-right: 6px;
+    }
+
+    .chip-tag {
+      font-size: 12px;
+      color: var(--text-hint);
+    }
+
+    .chip-sep {
+      color: var(--text-hint);
+      font-size: 16px;
+      transform: translateY(-1px);
+      user-select: none;
+    }
+
+    /* PROBLEM */
+    .problem {
+      padding: 120px 48px;
+    }
+
+    .problem-inner {
+      max-width: var(--max-reading);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 40% 1px 60%;
+      gap: 36px;
+      align-items: center;
+    }
+
+    .problem-left {
+      color: var(--text-secondary);
+    }
+
+    .problem-quote {
+      font-family: "Playfair Display", serif;
+      font-size: 120px;
+      line-height: 0.7;
+      color: rgba(196, 168, 98, 0.15);
+      margin-bottom: 16px;
+    }
+
+    .problem-left p {
+      margin: 0;
+      font-family: "Playfair Display", serif;
+      font-style: italic;
+      font-size: 22px;
+      line-height: 1.8;
+      white-space: pre-line;
+    }
+
+    .problem-divider {
+      height: 200px;
+      background: var(--border);
+      width: 1px;
+      margin: 0 auto;
+    }
+
+    .problem-right h2 {
+      margin: 0 0 20px;
+      font-family: "Playfair Display", serif;
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .problem-right p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.9;
+      font-weight: 300;
+      color: var(--text-secondary);
+      white-space: pre-line;
+    }
+
+    /* DEMO */
+    .demo {
+      background: var(--bg-secondary);
+      border-top: 0.5px solid var(--border);
+      border-bottom: 0.5px solid var(--border);
+      padding: 100px 48px;
+    }
+
+    .demo .label {
+      text-align: center;
+      display: block;
+      margin-bottom: 14px;
+    }
+
+    .demo h2 {
+      text-align: center;
+      font-family: "Playfair Display", serif;
+      font-style: italic;
+      font-size: 42px;
+      font-weight: 400;
+      margin: 0 0 64px;
+    }
+
+    .demo-mock {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .question-bar {
+      background: var(--bg-card);
+      border: 0.5px solid var(--border);
+      border-radius: 999px;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 22px;
+    }
+
+    .question-label {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      color: var(--text-hint);
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    .question-value {
+      font-size: 15px;
+      color: var(--text-secondary);
+      text-align: right;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .demo-card {
+      background: var(--bg-card);
+      border: 0.5px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 2px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      min-height: 240px;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+      --delay: 0ms;
+    }
+
+    .demo-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+    }
+
+    .demo-head {
+      font-family: "Playfair Display", serif;
+      font-size: 18px;
+      color: var(--text-primary);
+      margin: 0 0 6px;
+    }
+
+    .demo-lens {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 14px;
+    }
+
+    .demo-body {
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      margin: 0;
+      flex: 1;
+    }
+
+    .go-deeper-link {
+      margin-top: 14px;
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.9;
+    }
+
+    .synthesis {
+      margin-top: 16px;
+      background: rgba(0, 0, 0, 0.18);
+      border: 0.5px solid var(--border);
+      border-radius: 2px;
+      padding: 16px;
+    }
+
+    .synthesis .label {
+      margin-bottom: 8px;
+      display: block;
+      letter-spacing: 0.12em;
+    }
+
+    .synthesis p {
+      margin: 0;
+      font-family: "Playfair Display", serif;
+      font-style: italic;
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* MODES */
+    .modes {
+      padding: 120px 48px;
+    }
+
+    .modes h2 {
+      text-align: center;
+      font-size: 38px;
+      margin: 0 0 40px;
+    }
+
+    .mode-grid {
+      max-width: var(--max-standard);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .mode-card {
+      background: var(--bg-card);
+      border: 0.5px solid var(--border);
+      border-radius: 2px;
+      padding: 32px 28px;
+      position: relative;
+      transition: all 0.2s ease;
+    }
+
+    .mode-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+    }
+
+    .mode-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--line-color, var(--accent-warm));
+    }
+
+    .mode-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 3px 8px;
+      border-radius: 2px;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(155, 35, 53, 0.15);
+      color: var(--nietzsche);
+    }
+
+    .mode-icon {
+      font-family: "Playfair Display", serif;
+      font-style: italic;
+      font-size: 48px;
+      color: var(--accent-warm-dim);
+      line-height: 1;
+      margin-bottom: 14px;
+    }
+
+    .mode-card h3 {
+      margin: 0 0 12px;
+      font-family: "Playfair Display", serif;
+      font-weight: 600;
+      font-size: 22px;
+      color: var(--text-primary);
+    }
+
+    .mode-card p {
+      margin: 0 0 18px;
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.8;
+      font-weight: 300;
+    }
+
+    .mode-tag {
+      font-size: 10px;
+      color: var(--text-hint);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* CATEGORIES */
+    .categories {
+      background: var(--bg-secondary);
+      border-top: 0.5px solid var(--border);
+      border-bottom: 0.5px solid var(--border);
+      padding: 100px 48px;
+    }
+
+    .categories h2 {
+      font-family: "Playfair Display", serif;
+      font-style: italic;
+      font-size: 38px;
+      text-align: center;
+      margin: 0 0 38px;
+      font-weight: 400;
+    }
+
+    .category-grid {
+      max-width: var(--max-standard);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .category-card {
+      background: var(--bg-card);
+      border: 0.5px solid var(--border);
+      border-radius: 2px;
+      padding: 24px;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .category-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+    }
+
+    .cat-icon {
+      font-size: 20px;
+      color: var(--accent-warm-dim);
+      margin-bottom: 8px;
+      line-height: 1;
+    }
+
+    .category-card h3 {
+      margin: 0;
+      font-family: "Playfair Display", serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .category-card .cat-desc {
+      margin: 8px 0 12px;
+      font-size: 12px;
+      color: var(--text-hint);
+      line-height: 1.6;
+    }
+
+    .names {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 12px;
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .name {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .name-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--dot-color, var(--accent-warm));
+    }
+
+    /* QUOTES */
+    .quotes {
+      padding: 120px 48px;
+    }
+
+    .quotes h2 {
+      text-align: center;
+      margin: 0 0 64px;
+      font-family: "Playfair Display", serif;
+      font-style: italic;
+      font-size: 38px;
+      font-weight: 400;
+    }
+
+    .quote-grid {
+      max-width: var(--max-reading);
+      margin: 0 auto;
+      columns: 2;
+      column-gap: 20px;
+    }
+
+    .quote-card {
+      background: var(--bg-card);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 2px 2px 0;
+      padding: 24px 24px 24px 28px;
+      margin-bottom: 20px;
+      break-inside: avoid;
+    }
+
+    .quote-card blockquote {
+      margin: 0 0 12px;
+      color: var(--text-secondary);
+      font-family: "Lora", serif;
+      font-style: italic;
+      font-size: 16px;
+      line-height: 1.9;
+    }
+
+    .quote-card cite {
+      color: var(--text-hint);
+      font-style: normal;
+      font-size: 12px;
+    }
+
+    /* HOW IT WORKS */
+    .how {
+      padding: 120px 48px;
+    }
+
+    .how h2 {
+      text-align: center;
+      font-size: 36px;
+      margin: 0 0 42px;
+      font-family: "Playfair Display", serif;
+      font-weight: 600;
+    }
+
+    .timeline {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      padding-left: 54px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 28px;
+      top: 8px;
+      bottom: 8px;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 70px 1fr;
+      gap: 14px;
+      align-items: start;
+      margin-bottom: 22px;
+    }
+
+    .step-num {
+      font-family: "Playfair Display", serif;
+      font-style: italic;
+      font-size: 64px;
+      line-height: 0.9;
+      color: rgba(196, 168, 98, 0.15);
+      margin-top: -8px;
+    }
+
+    .step-content h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .step-content p {
+      margin: 0;
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      font-weight: 300;
+    }
+
+    /* FINAL CTA */
+    .final-cta {
+      padding: 140px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background: var(--bg-primary);
+      isolation: isolate;
+    }
+
+    .think-bg {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(100px, 18vw, 240px);
+      letter-spacing: 0.24em;
+      color: rgba(196, 168, 98, 0.03);
+      pointer-events: none;
+      transform: translateX(0.14em);
+      z-index: -1;
+    }
+
+    .final-cta .label {
+      letter-spacing: 0.15em;
+      margin-bottom: 24px;
+      display: block;
+    }
+
+    .final-title {
+      margin: 0;
+      font-family: "Playfair Display", serif;
+      font-style: italic;
+      font-size: 52px;
+      line-height: 1.08;
+      font-weight: 400;
+    }
+
+    .final-title .line-1 {
+      color: var(--text-primary);
+      display: block;
+    }
+
+    .final-title .line-2 {
+      color: var(--accent-warm);
+      display: block;
+      margin-bottom: 20px;
+    }
+
+    .final-sub {
+      margin: 0 0 48px;
+      color: var(--text-secondary);
+      font-size: 16px;
+      font-weight: 300;
+    }
+
+    .dots {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .dots span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--dot);
+    }
+
+    .dots-note {
+      margin-top: 10px;
+      font-size: 11px;
+      color: var(--text-hint);
+    }
+
+    /* FOOTER */
+    .footer {
+      background: var(--bg-secondary);
+      border-top: 0.5px solid var(--border);
+      padding: 40px 48px;
+    }
+
+    .footer-top {
+      max-width: var(--max-wide);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: flex-end;
+    }
+
+    .footer-brand {
+      font-family: "Playfair Display", serif;
+      font-style: italic;
+      font-size: 16px;
+      color: var(--accent-warm);
+      margin: 0 0 6px;
+    }
+
+    .footer-note,
+    .footer-right,
+    .footer-bottom {
+      color: var(--text-hint);
+      font-size: 12px;
+      margin: 0;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 22px;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    @keyframes heroIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%,
+      100% {
+        opacity: 0.35;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes marquee {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    @media (max-width: 1199px) {
+      .container,
+      .problem,
+      .demo,
+      .modes,
+      .categories,
+      .quotes,
+      .how,
+      .final-cta,
+      .footer {
+        padding-left: 28px;
+        padding-right: 28px;
+      }
+
+      .hero-content {
+        transform: scale(0.92);
+        transform-origin: center;
+      }
+
+      .problem-inner {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .problem-divider {
+        width: 100%;
+        height: 1px;
+      }
+
+      .mode-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .category-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .footer-top {
+        align-items: center;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .nav-inner {
+        padding: 0 20px;
+      }
+
+      .hero {
+        min-height: 92vh;
+      }
+
+      .hero-content {
+        padding: 0 20px 30px;
+      }
+
+      .hero-veritas,
+      .think-bg {
+        display: none;
+      }
+
+      .hero-actions {
+        width: 100%;
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+      }
+
+      .hero-trust {
+        flex-wrap: wrap;
+        row-gap: 8px;
+      }
+
+      .scroll-cue {
+        bottom: 10px;
+      }
+
+      .demo-grid,
+      .category-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .demo-grid .demo-card:nth-child(n + 3) {
+        display: none;
+      }
+
+      .question-bar {
+        border-radius: 14px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+
+      .question-value {
+        text-align: left;
+      }
+
+      .quote-grid {
+        columns: 1;
+      }
+
+      .timeline {
+        padding-left: 28px;
+      }
+
+      .timeline::before {
+        left: 12px;
+      }
+
+      .step {
+        grid-template-columns: 38px 1fr;
+        gap: 10px;
+      }
+
+      .step-num {
+        font-size: 40px;
+        margin-top: -2px;
+      }
+
+      .final-title {
+        font-size: 40px;
+      }
+
+      .footer-top {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .nav-cta .hide-mobile {
+        display: none;
+      }
+
+      .nav-cta .show-mobile {
+        display: inline;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .nav-cta .show-mobile {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#">DialecticAI</a>
+      <a class="btn nav-cta" href="/app/">
+        <span class="hide-mobile">Enter the Arena &rarr;</span>
+        <span class="show-mobile">Enter &rarr;</span>
+      </a>
+    </div>
+  </nav>
+
+  <section class="hero" id="top">
+    <div class="hero-veritas" aria-hidden="true">VERITAS</div>
+    <div class="hero-content">
+      <p class="hero-label">&mdash; A philosophical reasoning system &mdash;</p>
+      <h1 class="hero-headline hero-line-1">No Login. No Consensus.</h1>
+      <h1 class="hero-headline hero-line-2">Just Clarity.</h1>
+      <p class="hero-sub">History's sharpest philosophers dissect your modern problem. Truth appears in contradiction.</p>
+
+      <div class="hero-question-showcase" id="hero-question-showcase">
+        <div class="hero-question-label">people are asking</div>
+        <div class="hero-question-text" id="hero-question-text"></div>
+        <div class="hero-question-footer">
+          <span class="hero-question-pill" id="hero-question-pill"></span>
+          <a class="hero-question-link" id="hero-question-link" href="/app/">ask this &rarr;</a>
+        </div>
+      </div>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="/app/">Start for Free &rarr;</a>
+        <a class="btn btn-secondary" href="#demo">Watch it work &darr;</a>
+      </div>
+
+      <div class="hero-trust" aria-label="Trust stats">
+        <span>Free forever</span>
+        <span class="trust-sep"></span>
+        <span>No signup</span>
+        <span class="trust-sep"></span>
+        <span>16 philosophers</span>
+      </div>
+    </div>
+
+    <div class="scroll-cue" aria-hidden="true">
+      <div class="scroll-line"></div>
+      <span>scroll</span>
+    </div>
+  </section>
+
+  <section class="parade" aria-label="Philosopher parade">
+    <div class="marquee-wrap">
+      <div class="marquee-track">
+        <div class="chip"><span class="dot" style="--accent: var(--diogenes)"></span><span class="chip-name">Diogenes</span><span class="chip-tag">Destroys society</span></div>
+        <span class="chip-sep">&mdash;</span>
+        <div class="chip"><span class="dot" style="--accent: var(--socrates)"></span><span class="chip-name">Socrates</span><span class="chip-tag">Questions everything</span></div>
+        <span class="chip-sep">&mdash;</span>
+        <div class="chip"><span class="dot" style="--accent: var(--nietzsche)"></span><span class="chip-name">Nietzsche</span><span class="chip-tag">Create your own values</span></div>
+        <span class="chip-sep">&mdash;</span>
+        <div class="chip"><span class="dot" style="--accent: var(--aurelius)"></span><span class="chip-name">Marcus Aurelius</span><span class="chip-tag">Discipline + control</span></div>
+        <span class="chip-sep">&mdash;</span>
+        <div class="chip"><span class="dot" style="--accent: var(--chanakya)"></span><span class="chip-name">Chanakya</span><span class="chip-tag">Strategic survival</span></div>
+        <span class="chip-sep">&mdash;</span>
+        <div class="chip"><span class="dot" style="--accent: var(--machiavelli)"></span><span class="chip-name">Machiavelli</span><span class="chip-tag">Ruthless power</span></div>
+        <span class="chip-sep">&mdash;</span>
+        <div class="chip"><span class="dot" style="--accent: #7e7e7e"></span><span class="chip-name">Kant</span><span class="chip-tag">The universal law</span></div>
+        <span class="chip-sep">&mdash;</span>
+        <div class="chip"><span class="dot" style="--accent: #6f2f2f"></span><span class="chip-name">Marx</span><span class="chip-tag">Who owns what</span></div>
+        <span class="chip-sep">&mdash;</span>
+        <div class="chip"><span class="dot" style="--accent: #7f6d4e"></span><span class="chip-name">Camus</span><span class="chip-tag">Revolt anyway</span></div>
+        <span class="chip-sep">&mdash;</span>
+        <div class="chip"><span class="dot" style="--accent: var(--beauvoir)"></span><span class="chip-name">de Beauvoir</span><span class="chip-tag">Examine the power</span></div>
+        <span class="chip-sep">&mdash;</span>
+        <div class="chip"><span class="dot" style="--accent: var(--confucius)"></span><span class="chip-name">Confucius</span><span class="chip-tag">Relational duty</span></div>
+        <span class="chip-sep">&mdash;</span>
+        <div class="chip"><span class="dot" style="--accent: #5a4b74"></span><span class="chip-name">Sartre</span><span class="chip-tag">No excuses</span></div>
+
+        <div class="chip"><span class="dot" style="--accent: var(--diogenes)"></span><span class="chip-name">Diogenes</span><span class="chip-tag">Destroys society</span></div>
+        <span class="chip-sep">&mdash;</span>
+        <div class="chip"><span class="dot" style="--accent: var(--socrates)"></span><span class="chip-name">Socrates</span><span class="chip-tag">Questions everything</span></div>
+        <span class="chip-sep">&mdash;</span>
+        <div class="chip"><span class="dot" style="--accent: var(--nietzsche)"></span><span class="chip-name">Nietzsche</span><span class="chip-tag">Create your own values</span></div>
+        <span class="chip-sep">&mdash;</span>
+        <div class="chip"><span class="dot" style="--accent: var(--aurelius)"></span><span class="chip-name">Marcus Aurelius</span><span class="chip-tag">Discipline + control</span></div>
+        <span class="chip-sep">&mdash;</span>
+        <div class="chip"><span class="dot" style="--accent: var(--chanakya)"></span><span class="chip-name">Chanakya</span><span class="chip-tag">Strategic survival</span></div>
+        <span class="chip-sep">&mdash;</span>
+        <div class="chip"><span class="dot" style="--accent: var(--machiavelli)"></span><span class="chip-name">Machiavelli</span><span class="chip-tag">Ruthless power</span></div>
+        <span class="chip-sep">&mdash;</span>
+        <div class="chip"><span class="dot" style="--accent: #7e7e7e"></span><span class="chip-name">Kant</span><span class="chip-tag">The universal law</span></div>
+        <span class="chip-sep">&mdash;</span>
+        <div class="chip"><span class="dot" style="--accent: #6f2f2f"></span><span class="chip-name">Marx</span><span class="chip-tag">Who owns what</span></div>
+        <span class="chip-sep">&mdash;</span>
+        <div class="chip"><span class="dot" style="--accent: #7f6d4e"></span><span class="chip-name">Camus</span><span class="chip-tag">Revolt anyway</span></div>
+        <span class="chip-sep">&mdash;</span>
+        <div class="chip"><span class="dot" style="--accent: var(--beauvoir)"></span><span class="chip-name">de Beauvoir</span><span class="chip-tag">Examine the power</span></div>
+        <span class="chip-sep">&mdash;</span>
+        <div class="chip"><span class="dot" style="--accent: var(--confucius)"></span><span class="chip-name">Confucius</span><span class="chip-tag">Relational duty</span></div>
+        <span class="chip-sep">&mdash;</span>
+        <div class="chip"><span class="dot" style="--accent: #5a4b74"></span><span class="chip-name">Sartre</span><span class="chip-tag">No excuses</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="problem">
+    <div class="problem-inner">
+      <div class="problem-left reveal">
+        <div class="problem-quote">&quot;</div>
+        <p>You ask ChatGPT for advice.
+It tells you both sides.
+Thanks you for sharing.
+Wishes you well.
+Solves nothing.</p>
+      </div>
+
+      <div class="problem-divider"></div>
+
+      <div class="problem-right reveal" style="--delay: 120ms">
+        <h2>Clarity comes from tension, not consensus.</h2>
+        <p>DialecticAI gives you Diogenes calling your situation theater, Machiavelli calculating who holds power, Nietzsche questioning whether you're even asking the right question, and Aurelius telling you to focus on what you control.
+
+That contradiction is more useful than any single correct answer. Because real problems don't have correct answers - they have tradeoffs.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="demo" id="demo">
+    <span class="label reveal">See it in action</span>
+    <h2 class="reveal" style="--delay: 100ms">Ask anything. Get the truth.</h2>
+
+    <div class="demo-mock reveal" style="--delay: 200ms">
+      <div class="question-bar">
+        <span class="question-label">Question</span>
+        <span class="question-value">I don't even know if the life I'm chasing is something I actually want.</span>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo-card reveal" style="--accent: var(--socrates); --delay: 0ms">
+          <h3 class="demo-head">Socrates · The Questioner</h3>
+          <p class="demo-lens">via questioning</p>
+          <p class="demo-body">What is it that you are chasing - and who first told you it was worth chasing? If you already suspect the answer, what are you still waiting for permission to admit?</p>
+          <a href="#" class="go-deeper-link">Go Deeper &rarr;</a>
+        </article>
+
+        <article class="demo-card reveal" style="--accent: var(--diogenes); --delay: 150ms">
+          <h3 class="demo-head">Diogenes · The Cynic</h3>
+          <p class="demo-lens">via rejection</p>
+          <p class="demo-body">Finally. An honest question. You built a cage. Called it ambition. Alexander had everything. Asked me for nothing. I had nothing. Needed less.</p>
+          <a href="#" class="go-deeper-link">Go Deeper &rarr;</a>
+        </article>
+
+        <article class="demo-card reveal" style="--accent: var(--beauvoir); --delay: 300ms">
+          <h3 class="demo-head">de Beauvoir · The Liberator</h3>
+          <p class="demo-lens">via existential freedom</p>
+          <p class="demo-body">You were handed a life and told to chase it. That is not ambition - that is obedience. The only question worth asking is not whether you want it. It is: what would you build if no one was watching?</p>
+          <a href="#" class="go-deeper-link">Go Deeper &rarr;</a>
+        </article>
+
+        <article class="demo-card reveal" style="--accent: var(--confucius); --delay: 450ms">
+          <h3 class="demo-head">Confucius · The Sage</h3>
+          <p class="demo-lens">via relational duty</p>
+          <p class="demo-body">The wanting and the chasing are within your judgment. The life itself is not. Examine what you control: your effort, your attention, your next action. Begin there. The answer follows the doing.</p>
+          <a href="#" class="go-deeper-link">Go Deeper &rarr;</a>
+        </article>
+      </div>
+
+      <div class="synthesis reveal" style="--delay: 550ms">
+        <span class="label">Synthesis</span>
+        <p>The tension is between inherited direction and chosen direction - whether the life being chased was ever examined, or simply accepted and accelerated.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="modes">
+    <div class="container">
+      <h2 class="section-heading reveal">Three ways to find clarity</h2>
+
+      <div class="mode-grid">
+        <article class="mode-card reveal" style="--delay: 0ms">
+          <div class="mode-line" style="--line-color: var(--accent-warm)"></div>
+          <div class="mode-icon">I</div>
+          <h3>Perspectives</h3>
+          <p>Pick 2-4 philosophers. Submit your situation. Receive genuinely contradictory responses simultaneously. A synthesis identifies the single deepest tension.</p>
+          <span class="mode-tag">Best for: understanding a situation</span>
+        </article>
+
+        <article class="mode-card reveal" style="--delay: 100ms">
+          <div class="mode-line" style="--line-color: var(--nietzsche)"></div>
+          <span class="mode-badge">Most Used</span>
+          <div class="mode-icon" style="color: rgba(155, 35, 53, 0.45)">II</div>
+          <h3>Debate</h3>
+          <p>Two philosophers argue your question across 5 rounds, directly rebutting each other. A neutral verdict declares the more coherent argument.</p>
+          <span class="mode-tag">Best for: making a decision</span>
+        </article>
+
+        <article class="mode-card reveal" style="--delay: 200ms">
+          <div class="mode-line" style="--line-color: var(--socrates)"></div>
+          <div class="mode-icon" style="color: rgba(74, 127, 165, 0.45)">III</div>
+          <h3>Go Deeper</h3>
+          <p>After reading responses, enter a live chat with any philosopher. They remember the context. They escalate their core trait the longer you push.</p>
+          <span class="mode-tag">Best for: challenging your thinking</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="categories">
+    <h2 class="reveal">Choose your battlefield</h2>
+    <div class="category-grid">
+      <article class="category-card reveal" style="--delay: 0ms">
+        <div class="cat-icon">&#9876;</div>
+        <h3>Career &amp; Ambition</h3>
+        <p class="cat-desc">Job decisions, office politics, ambition vs comfort</p>
+        <div class="names">
+          <span class="name"><span class="name-dot" style="--dot-color: var(--machiavelli)"></span>Machiavelli</span>
+          <span class="name"><span class="name-dot" style="--dot-color: var(--chanakya)"></span>Chanakya</span>
+          <span class="name"><span class="name-dot" style="--dot-color: var(--nietzsche)"></span>Nietzsche</span>
+          <span class="name"><span class="name-dot" style="--dot-color: var(--aurelius)"></span>Aurelius</span>
+        </div>
+      </article>
+
+      <article class="category-card reveal" style="--delay: 100ms">
+        <div class="cat-icon">&#9878;</div>
+        <h3>Relationships &amp; People</h3>
+        <p class="cat-desc">Loyalty, love, trust, toxic people</p>
+        <div class="names">
+          <span class="name"><span class="name-dot" style="--dot-color: var(--socrates)"></span>Socrates</span>
+          <span class="name"><span class="name-dot" style="--dot-color: var(--diogenes)"></span>Diogenes</span>
+          <span class="name"><span class="name-dot" style="--dot-color: var(--beauvoir)"></span>de Beauvoir</span>
+          <span class="name"><span class="name-dot" style="--dot-color: var(--confucius)"></span>Confucius</span>
+        </div>
+      </article>
+
+      <article class="category-card reveal" style="--delay: 200ms">
+        <div class="cat-icon">&#127963;</div>
+        <h3>Society &amp; Politics</h3>
+        <p class="cat-desc">Power structures, democracy, modern systems</p>
+        <div class="names">
+          <span class="name"><span class="name-dot" style="--dot-color: var(--machiavelli)"></span>Machiavelli</span>
+          <span class="name"><span class="name-dot" style="--dot-color: #7f7f7f"></span>Hobbes</span>
+          <span class="name"><span class="name-dot" style="--dot-color: #9b6c40"></span>Rousseau</span>
+          <span class="name"><span class="name-dot" style="--dot-color: var(--chanakya)"></span>Chanakya</span>
+        </div>
+      </article>
+
+      <article class="category-card reveal" style="--delay: 300ms">
+        <div class="cat-icon">&infin;</div>
+        <h3>Existence &amp; Identity</h3>
+        <p class="cat-desc">Purpose, meaning, identity crisis, direction</p>
+        <div class="names">
+          <span class="name"><span class="name-dot" style="--dot-color: var(--nietzsche)"></span>Nietzsche</span>
+          <span class="name"><span class="name-dot" style="--dot-color: #7f6d4e"></span>Camus</span>
+          <span class="name"><span class="name-dot" style="--dot-color: #5a4b74"></span>Sartre</span>
+          <span class="name"><span class="name-dot" style="--dot-color: var(--diogenes)"></span>Diogenes</span>
+        </div>
+      </article>
+
+      <article class="category-card reveal" style="--delay: 400ms">
+        <div class="cat-icon">&#9878;</div>
+        <h3>Morality &amp; Ethics</h3>
+        <p class="cat-desc">Right vs wrong, guilt, duty, moral dilemmas</p>
+        <div class="names">
+          <span class="name"><span class="name-dot" style="--dot-color: #7e7e7e"></span>Kant</span>
+          <span class="name"><span class="name-dot" style="--dot-color: #88693d"></span>Aristotle</span>
+          <span class="name"><span class="name-dot" style="--dot-color: #5f777e"></span>Mill</span>
+          <span class="name"><span class="name-dot" style="--dot-color: var(--aurelius)"></span>Aurelius</span>
+        </div>
+      </article>
+
+      <article class="category-card reveal" style="--delay: 500ms">
+        <div class="cat-icon">&#9823;</div>
+        <h3>Money &amp; Power</h3>
+        <p class="cat-desc">Wealth, ambition, class, greed vs ethics</p>
+        <div class="names">
+          <span class="name"><span class="name-dot" style="--dot-color: var(--machiavelli)"></span>Machiavelli</span>
+          <span class="name"><span class="name-dot" style="--dot-color: var(--chanakya)"></span>Chanakya</span>
+          <span class="name"><span class="name-dot" style="--dot-color: #6f2f2f"></span>Marx</span>
+          <span class="name"><span class="name-dot" style="--dot-color: var(--nietzsche)"></span>Nietzsche</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="quotes">
+    <h2 class="reveal">Voices that cut through noise</h2>
+
+    <div class="quote-grid">
+      <article class="quote-card reveal" style="--accent: var(--diogenes); --delay: 0ms">
+        <blockquote>"You ask if you should quit. I ask why you started. The answer to both is the same: you were told to."</blockquote>
+        <cite>- Diogenes, responding to: career decisions</cite>
+      </article>
+
+      <article class="quote-card reveal" style="--accent: var(--socrates); --delay: 100ms">
+        <blockquote>"What is it about her absence that you call loneliness - is it her you miss, or the version of yourself that existed with her?"</blockquote>
+        <cite>- Socrates, responding to: a breakup</cite>
+      </article>
+
+      <article class="quote-card reveal" style="--accent: var(--nietzsche); --delay: 200ms">
+        <blockquote>"You are not lost. You are simply standing at the edge of the values you inherited, finally noticing they were never yours."</blockquote>
+        <cite>- Nietzsche, responding to: identity crisis</cite>
+      </article>
+
+      <article class="quote-card reveal" style="--accent: var(--machiavelli); --delay: 300ms">
+        <blockquote>"You ask if the salary is fair. The correct question is: who decided what fair means, and why did you accept their definition?"</blockquote>
+        <cite>- Machiavelli, responding to: salary negotiation</cite>
+      </article>
+
+      <article class="quote-card reveal" style="--accent: var(--aurelius); --delay: 400ms">
+        <blockquote>"The obstacle is the way. What you call suffering is simply reality asking you to respond rather than react."</blockquote>
+        <cite>- Marcus Aurelius, responding to: anxiety</cite>
+      </article>
+
+      <article class="quote-card reveal" style="--accent: var(--chanakya); --delay: 500ms">
+        <blockquote>"Your enemy is not your competitor. Your enemy is your own impatience. The patient man inherits everything."</blockquote>
+        <cite>- Chanakya, responding to: startup failure</cite>
+      </article>
+    </div>
+  </section>
+
+  <section class="how">
+    <h2 class="reveal">Simple as asking a question</h2>
+
+    <div class="timeline">
+      <article class="step reveal" style="--delay: 0ms">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Choose your battlefield</h3>
+          <p>Pick from 6 life categories - career, relationships, society, existence, ethics, or money and power.</p>
+        </div>
+      </article>
+
+      <article class="step reveal" style="--delay: 100ms">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Select your philosophers</h3>
+          <p>Choose 2 to 4 thinkers whose lens matches your problem. Each brings a genuinely different framework.</p>
+        </div>
+      </article>
+
+      <article class="step reveal" style="--delay: 200ms">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Describe your situation</h3>
+          <p>Quick mode: one text box. Deep mode: four fields that help the philosophers understand your specific context.</p>
+        </div>
+      </article>
+
+      <article class="step reveal" style="--delay: 300ms">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>Receive contradictory clarity</h3>
+          <p>All philosophers respond simultaneously. Contradiction is the point. A synthesis identifies the single deepest tension.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <div class="think-bg" aria-hidden="true">THINK</div>
+
+    <span class="label reveal">Free. No signup. No API key.</span>
+    <h2 class="final-title reveal" style="--delay: 100ms">
+      <span class="line-1">Your problem deserves more</span>
+      <span class="line-2">than one answer.</span>
+    </h2>
+    <p class="final-sub reveal" style="--delay: 200ms">Sixteen philosophers. Three modes. Zero cost.</p>
+
+    <a class="btn btn-primary reveal" href="/app/" style="padding: 16px 40px; font-size: 15px; letter-spacing: 0.04em; --delay: 300ms">Ask the Philosophers &rarr;</a>
+
+    <div class="dots reveal" style="--delay: 400ms">
+      <span style="--dot: var(--diogenes)"></span>
+      <span style="--dot: var(--socrates)"></span>
+      <span style="--dot: var(--nietzsche)"></span>
+      <span style="--dot: var(--aurelius)"></span>
+      <span style="--dot: var(--chanakya)"></span>
+      <span style="--dot: var(--machiavelli)"></span>
+    </div>
+    <p class="dots-note reveal" style="--delay: 500ms">16 philosophers ready</p>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-top">
+      <div>
+        <p class="footer-brand">DialecticAI</p>
+        <p class="footer-note">Truth appears in contradiction.</p>
+      </div>
+      <p class="footer-right">Built by a philosophy obsessive in Delhi.</p>
+    </div>
+    <p class="footer-bottom">Free forever. No login. No consensus.</p>
+  </footer>
+
+  <script>
+    (function () {
+      const QUESTION_BANK = {
+        existential: [
+          "I don't even know if the life I'm chasing is something I actually want.",
+          "I wake up every day performing a version of myself I don't recognize.",
+          "What if I'm not lost — what if I just hate where I'm going?",
+          "I've achieved everything I planned. Why does it feel like nothing?",
+          "I keep waiting for my real life to start. What if this is it?",
+          "I'm terrified that I'm ordinary and always will be.",
+          "If no one was watching my life, would I be living it differently?",
+          "I don't know if I believe in anything anymore.",
+          "I feel like I'm living someone else's dream and I can't find the exit.",
+          "What's the point of being successful if you're empty inside?"
+        ],
+        genz: [
+          "Social media is making me hate myself but I can't stop scrolling.",
+          "Everyone my age seems to be doing something meaningful. I'm just existing.",
+          "I don't know if I want a relationship or if I've just been told I should.",
+          "My anxiety is treated like a personality trait now. Is it?",
+          "I'm exhausted by being perceived.",
+          "I curate my life for people who don't actually care about me.",
+          "Everyone is building a personal brand. I don't even have a personal self.",
+          "I don't know if I'm depressed or if this is just what being alive feels like now.",
+          "Is it okay to want a quiet, unambitious life? Or is that giving up?",
+          "I romanticize the idea of disappearing and starting over somewhere no one knows me.",
+          "I feel guilty for not being more grateful when so many have less.",
+          "Dating apps have made me feel like a product. I hate it but I keep using them.",
+          "I'm afraid to commit to anything because what if something better comes along?",
+          "My parents sacrificed everything for me. I don't want what they wanted for me."
+        ],
+        career: [
+          "I'm good at my job but I dread every single Monday.",
+          "I took the safe job. Five years later I still resent myself for it.",
+          "My boss takes credit for my work. I say nothing. Every time.",
+          "I want to quit and start something but I'm terrified of failing publicly.",
+          "I work 70 hour weeks and still feel like I'm not doing enough.",
+          "Everyone around me is getting promoted. I'm just getting older.",
+          "I chose money over passion ten years ago. Now I have neither.",
+          "I'm underpaid and I know it. I still haven't asked for a raise.",
+          "Should I work for a company I believe in that pays less, or the opposite?",
+          "I've been in the same role for three years. Is loyalty stupid?"
+        ],
+        relationships: [
+          "I love someone who is completely wrong for me and I know it.",
+          "My closest friends are strangers to who I've become.",
+          "I keep attracting the same kind of person. It has to be me.",
+          "I've been alone for so long I'm not sure I know how to let someone in.",
+          "I stayed in a relationship too long out of fear of being alone.",
+          "I don't know if I actually love them or if I'm just comfortable.",
+          "My family has expectations of me that are slowly crushing me.",
+          "I'm loyal to people who would not do the same for me.",
+          "I forgave someone I shouldn't have. Now I can't respect myself.",
+          "I don't know how to love someone without losing myself."
+        ],
+        society: [
+          "Democracy feels broken but I don't know what to replace it with.",
+          "The news makes me furious but nothing I do seems to change anything.",
+          "Is capitalism the problem or am I just bad at it?",
+          "I benefit from systems I believe are unjust. What do I do with that?",
+          "Technology was supposed to free us. Why do I feel more trapped?",
+          "Meritocracy is a myth but I still believe in it. Am I stupid?",
+          "Is it possible to be truly ethical in an unethical system?",
+          "Everyone has strong opinions. No one changes their mind. What's the point?",
+          "Is nationalism dangerous or is globalism naive?",
+          "Social media has destroyed nuance. Can it be saved?"
+        ],
+        money: [
+          "I grew up poor. Now I have money and I don't trust it.",
+          "I want to be wealthy but I'm ashamed of wanting it.",
+          "I spend money to feel something. I know it's not working.",
+          "Is it ethical to be rich when others have nothing?",
+          "I know I should invest. I spend it anyway. Why?",
+          "I'd rather be broke doing something I love than rich doing something I don't.",
+          "Money has changed my relationships and I'm not sure it was worth it.",
+          "I'm financially successful by every metric. I feel like a fraud.",
+          "Should I chase financial security or meaning? Can I have both?",
+          "My worth feels tied to my net worth. I hate that about myself."
+        ],
+        morality: [
+          "I did something I'm not proud of and no one will ever know.",
+          "I watched someone being treated unfairly and said nothing.",
+          "Is it wrong to put yourself first when others are suffering?",
+          "I've lied to protect someone I love. Was it right?",
+          "I disagree with my culture's values but I still live by them.",
+          "How do I know if I'm a good person or just performing goodness?",
+          "I believe something is wrong but everyone around me accepts it.",
+          "I want to do the right thing but I don't know what that is anymore.",
+          "Is forgiveness something you owe someone or something you choose?",
+          "I've hurt someone. I've apologized. They haven't forgiven me. Now what?"
+        ]
+      }
+
+      const allQuestions = Object.values(QUESTION_BANK).flat()
+
+      function shuffleArray(arr) {
+        const shuffled = [...arr]
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1))
+          ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+        }
+        return shuffled
+      }
+
+      function getCategoryForQuestion(question) {
+        for (const [category, questions] of Object.entries(QUESTION_BANK)) {
+          if (questions.includes(question)) return category
+        }
+        return "all"
+      }
+
+      const textEl = document.getElementById("hero-question-text")
+      const pillEl = document.getElementById("hero-question-pill")
+      const linkEl = document.getElementById("hero-question-link")
+
+      let queue = shuffleArray(allQuestions)
+      let index = 0
+      let visible = true
+      let hover = false
+      let intervalId = null
+      let fadeOutId = null
+      let gapId = null
+
+      function renderQuestion() {
+        const question = queue[index] || allQuestions[0]
+        textEl.textContent = question
+        pillEl.textContent = getCategoryForQuestion(question)
+        linkEl.href = `/app/?q=${encodeURIComponent(question)}`
+        textEl.classList.toggle("hidden", !visible)
+      }
+
+      function clearTimers() {
+        if (intervalId) window.clearInterval(intervalId)
+        if (fadeOutId) window.clearTimeout(fadeOutId)
+        if (gapId) window.clearTimeout(gapId)
+        intervalId = null
+        fadeOutId = null
+        gapId = null
+      }
+
+      function start() {
+        clearTimers()
+        if (hover || queue.length <= 1) return
+
+        intervalId = window.setInterval(() => {
+          visible = false
+          renderQuestion()
+
+          fadeOutId = window.setTimeout(() => {
+            index += 1
+            if (index >= queue.length) {
+              queue = shuffleArray(allQuestions)
+              index = 0
+            }
+
+            renderQuestion()
+
+            gapId = window.setTimeout(() => {
+              visible = true
+              renderQuestion()
+            }, 100)
+          }, 300)
+        }, 3500)
+      }
+
+      document.getElementById("hero-question-showcase").addEventListener("mouseenter", () => {
+        hover = true
+        start()
+      })
+
+      document.getElementById("hero-question-showcase").addEventListener("mouseleave", () => {
+        hover = false
+        start()
+      })
+
+      renderQuestion()
+      start()
+    })();
+  </script>
+  <script>
+    (function () {
+      const nav = document.getElementById("nav");
+      const revealEls = Array.from(document.querySelectorAll(".reveal"));
+
+      function updateNav() {
+        if (window.scrollY > 80) {
+          nav.classList.add("solid");
+        } else {
+          nav.classList.remove("solid");
+        }
+      }
+
+      updateNav();
+      window.addEventListener("scroll", updateNav, { passive: true });
+
+      const io = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("in-view");
+            observer.unobserve(entry.target);
+          });
+        },
+        { threshold: 0.2 }
+      );
+
+      revealEls.forEach((el) => io.observe(el));
+    })();
+  </script>
+</body>
+</html>
