@@ -9,8 +9,10 @@ import ResponseCard from "./components/ResponseCard"
 import DebateArena from "./components/DebateArena"
 import SynthesisBlock from "./components/SynthesisBlock"
 import GoDeeper from "./components/GoDeeper"
+import FeedbackModal from "./components/FeedbackModal"
 
 const MAX_ROUNDS = 5
+const MIN_QUICK_CHARS = 20
 const FORMAT_RULES = {
   socrates: "Respond in questions only. Zero statements.",
   diogenes: "Short sentences. Maximum 6 words each where possible. Be brutal.",
@@ -62,6 +64,12 @@ export default function App() {
   const [goDeeperInitialQuestion, setGoDeeperInitialQuestion] = useState("")
   const [goDeeperInitialResponse, setGoDeeperInitialResponse] = useState("")
   const [prefillBanner, setPrefillBanner] = useState("")
+  const [submitError, setSubmitError] = useState("")
+  const [validationErrors, setValidationErrors] = useState({})
+
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false)
+  const [feedbackSessionCompleted, setFeedbackSessionCompleted] = useState(false)
+  const [goDeeperMessageCount, setGoDeeperMessageCount] = useState(0)
 
   const category = useMemo(() => CATEGORIES[selectedCategoryKey], [selectedCategoryKey])
   const selectedPhilosophers = useMemo(() => {
@@ -123,6 +131,9 @@ export default function App() {
     setDebateMessages({})
     setDebateLoading(false)
     setVerdict("")
+    setShowFeedbackModal(false)
+    setFeedbackSessionCompleted(false)
+    setGoDeeperMessageCount(0)
   }
 
   function handleCategorySelect(key) {
@@ -174,6 +185,30 @@ export default function App() {
     ].join("\n").trim()
   }
 
+  function validateSubmission() {
+    const errors = {}
+
+    if (inputMode === "quick") {
+      const value = quickValue.trim()
+
+      if (!value) {
+        errors.quick = "Question is required."
+      } else if (value.length < MIN_QUICK_CHARS) {
+        errors.quick = `Question is too short. Add detail (${MIN_QUICK_CHARS}+ characters).`
+      }
+    } else {
+      if (!deepValues.situation.trim()) errors.situation = "Situation is required."
+      if (!deepValues.want.trim()) errors.want = "What you want is required."
+      if (!deepValues.fear.trim()) errors.fear = "What you fear is required."
+      if (!deepValues.tried.trim()) errors.tried = "What you tried is required."
+    }
+
+    return {
+      isValid: Object.keys(errors).length === 0,
+      errors
+    }
+  }
+
   async function askWithFallback(systemPrompt, userPrompt) {
     try {
       return await generateResponse(null, systemPrompt, userPrompt, "groq")
@@ -200,7 +235,11 @@ export default function App() {
           text: text || "This philosopher refused to answer."
         }
       }))
-    } catch {
+    } catch (error) {
+      if (error?.code === "too_many_requests") {
+        showToast("Rate limit reached. Please wait and try again.")
+      }
+
       setResponses(prev => ({
         ...prev,
         [philosopher.id]: {
@@ -215,7 +254,7 @@ export default function App() {
     setSynthesisLoading(true)
 
     const synthSystem =
-      "You are a philosophical synthesizer. Your job is not to summarize what each philosopher said — the user already read that. Your job is to name the single deepest tension that only becomes visible when you hold all these perspectives at once. One tension. One insight. Two sentences maximum. First sentence names the tension. Second sentence says what that tension reveals about the question itself. The synthesis must reference the specific situation the person described, not abstract philosophical concepts. If someone's girlfriend cheated on them, the synthesis is about that betrayal specifically — not about 'the nature of relationships.' Make it land personally. No names of philosophers in the synthesis. No markdown. Be memorable."
+      "You are a synthesis engine. You have one job: find the crack in the question that only appears when contradictory perspectives collide. Rules: Two sentences. Hard limit. Sentence 1: Start with the specific situation the person described - a concrete detail from what they wrote. Not \"the question of loyalty\" - \"the fact that she stayed for two years.\" Name what is actually in tension using their words, not philosophical categories. Sentence 2: Say what that tension exposes about what the person is really asking - which is almost never what they think they're asking. Never name a philosopher. Never use the words \"tension,\" \"paradox,\" \"dichotomy,\" \"authenticity,\" \"meaning,\" or \"existence\" - these are escape hatches into abstraction. Never write a sentence that could apply to a different person's situation. No markdown. No hedging. No comfort. If someone submitted \"my girlfriend cheated on me\" - the synthesis is about that specific betrayal, that specific person, written so they feel slightly exposed reading it."
 
     const lines = selectedPhilosophers.map(philosopher => {
       const entry = responses[philosopher.id]
@@ -272,6 +311,18 @@ export default function App() {
     synthesisLoading,
     question
   ])
+
+  useEffect(() => {
+    if (step !== "perspectives" || !synthesis || feedbackSessionCompleted) return
+    setShowFeedbackModal(true)
+    setFeedbackSessionCompleted(true)
+  }, [step, synthesis, feedbackSessionCompleted])
+
+  useEffect(() => {
+    if (step !== "debate" || !verdict || feedbackSessionCompleted) return
+    setShowFeedbackModal(true)
+    setFeedbackSessionCompleted(true)
+  }, [step, verdict, feedbackSessionCompleted])
 
   async function runDebateRound(nextRound, questionText, existingMessages) {
     setDebateLoading(true)
@@ -357,10 +408,24 @@ export default function App() {
   }
 
   async function handleSubmit() {
+    const validation = validateSubmission()
+    if (!validation.isValid) {
+      setValidationErrors(validation.errors)
+      setSubmitError("Please fix the highlighted fields before submitting.")
+      showToast("Submission blocked: required details are missing.")
+      return
+    }
+
     const questionText = buildQuestion()
-    if (!questionText) return
+    if (!questionText) {
+      setSubmitError("Question is empty. Add your situation and try again.")
+      setValidationErrors(inputMode === "quick" ? { quick: "Question is required." } : { situation: "Situation is required." })
+      return
+    }
 
     setSubmitting(true)
+    setSubmitError("")
+    setValidationErrors({})
     setQuestion(questionText)
     resetOutputState()
 
@@ -411,6 +476,13 @@ export default function App() {
     setStep("goDeeper")
   }
 
+  function handleGoDeeperSixMessages() {
+    if (!feedbackSessionCompleted) {
+      setShowFeedbackModal(true)
+      setFeedbackSessionCompleted(true)
+    }
+  }
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const prefillQuestion = params.get("q")
@@ -432,6 +504,13 @@ export default function App() {
     const timer = window.setTimeout(() => setPrefillBanner(""), 3000)
     return () => window.clearTimeout(timer)
   }, [])
+
+  useEffect(() => {
+    if (!submitError && Object.keys(validationErrors).length === 0) return
+
+    setSubmitError("")
+    setValidationErrors({})
+  }, [inputMode, quickValue, deepValues])
 
   return (
     <main className="app-shell">
@@ -515,6 +594,8 @@ export default function App() {
             selectedPhilosophers={selectedPhilosophers}
             categoryKey={selectedCategoryKey}
             prefillBanner={prefillBanner}
+            submitError={submitError}
+            validationErrors={validationErrors}
           />
         </section>
       )}
@@ -598,11 +679,24 @@ export default function App() {
             initialQuestion={goDeeperInitialQuestion}
             initialResponse={goDeeperInitialResponse}
             onClose={() => setStep("perspectives")}
+            onMessageCountChange={handleGoDeeperSixMessages}
           />
         </section>
       )}
 
+      <FeedbackModal
+        isOpen={showFeedbackModal}
+        selectedPhilosophers={selectedPhilosophers}
+        category={category?.name || ""}
+        sessionType={responseModeLabel}
+        onClose={() => setShowFeedbackModal(false)}
+      />
       </div>
+
+      <footer className="app-footer">
+        <p className="app-footer-credit">Built by Puneet · Delhi, India</p>
+        <a href="mailto:puneetk49081@gmail.com" className="app-footer-email">puneetk49081@gmail.com</a>
+      </footer>
 
       <DiogenesGate
         open={!!pendingDiogenes}

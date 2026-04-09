@@ -15,7 +15,9 @@ export default function InputPanel({
   disabled,
   selectedPhilosophers,
   categoryKey,
-  prefillBanner
+  prefillBanner,
+  submitError,
+  validationErrors = {}
 }) {
   const quickTextareaRef = useRef(null)
   const deepSituationRef = useRef(null)
@@ -23,6 +25,14 @@ export default function InputPanel({
   const questionSource = categoryKey && CATEGORY_QUESTIONS[categoryKey]
     ? CATEGORY_QUESTIONS[categoryKey]
     : ALL_QUESTIONS
+
+  const hasQuickInput = quickValue.trim().length > 0
+  const hasDeepInput =
+    deepValues.situation.trim().length > 0 &&
+    deepValues.want.trim().length > 0 &&
+    deepValues.fear.trim().length > 0 &&
+    deepValues.tried.trim().length > 0
+  const canSubmit = inputMode === "quick" ? hasQuickInput : hasDeepInput
 
   function updateDeepField(field, value) {
     setDeepValues(prev => ({ ...prev, [field]: value }))
@@ -71,6 +81,12 @@ export default function InputPanel({
           Be specific. The more real it is, the sharper the response.
         </p>
       </div>
+
+      {submitError && (
+        <div className="submit-error" role="alert" aria-live="assertive">
+          {submitError}
+        </div>
+      )}
 
       <div className="asking-strip">
         <span className="asking-label">Asking:</span>
@@ -122,7 +138,16 @@ export default function InputPanel({
             onChange={e => setQuickValue(e.target.value)}
             placeholder="Write your question here..."
             rows={6}
+            className={validationErrors.quick ? "input-invalid" : ""}
+            aria-invalid={validationErrors.quick ? "true" : "false"}
+            aria-describedby={validationErrors.quick ? "quick-error" : undefined}
           />
+
+          {validationErrors.quick && (
+            <p id="quick-error" className="field-error" role="alert">
+              {validationErrors.quick}
+            </p>
+          )}
 
           {quickValue.trim() && (
             <p className="character-count">{quickValue.trim().length} characters</p>
@@ -142,7 +167,10 @@ export default function InputPanel({
               rows={5}
               value={deepValues.situation}
               onChange={e => updateDeepField("situation", e.target.value)}
+              className={validationErrors.situation ? "input-invalid" : ""}
+              aria-invalid={validationErrors.situation ? "true" : "false"}
             />
+            {validationErrors.situation && <p className="field-error">{validationErrors.situation}</p>}
           </label>
           <label>
             What do you actually want?
@@ -150,7 +178,10 @@ export default function InputPanel({
               type="text"
               value={deepValues.want}
               onChange={e => updateDeepField("want", e.target.value)}
+              className={validationErrors.want ? "input-invalid" : ""}
+              aria-invalid={validationErrors.want ? "true" : "false"}
             />
+            {validationErrors.want && <p className="field-error">{validationErrors.want}</p>}
           </label>
           <label>
             What are you afraid of?
@@ -158,7 +189,10 @@ export default function InputPanel({
               type="text"
               value={deepValues.fear}
               onChange={e => updateDeepField("fear", e.target.value)}
+              className={validationErrors.fear ? "input-invalid" : ""}
+              aria-invalid={validationErrors.fear ? "true" : "false"}
             />
+            {validationErrors.fear && <p className="field-error">{validationErrors.fear}</p>}
           </label>
           <label>
             What have you already tried?
@@ -166,7 +200,10 @@ export default function InputPanel({
               type="text"
               value={deepValues.tried}
               onChange={e => updateDeepField("tried", e.target.value)}
+              className={validationErrors.tried ? "input-invalid" : ""}
+              aria-invalid={validationErrors.tried ? "true" : "false"}
             />
+            {validationErrors.tried && <p className="field-error">{validationErrors.tried}</p>}
           </label>
         </div>
       )}
@@ -175,7 +212,7 @@ export default function InputPanel({
         type="button"
         className="primary-btn ask-btn"
         onClick={onSubmit}
-        disabled={disabled}
+        disabled={disabled || !canSubmit}
       >
         Ask the Philosophers →
       </button>

@@ -33,9 +33,18 @@ body {
   background: var(--bg-primary);
   color: var(--text-primary);
   font-family: "DM Sans", sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
 }
 
 .app-shell {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
   background: var(--bg-primary);
 }
@@ -420,4 +429,33 @@ a:focus-visible {
   .app-content {
     width: calc(100% - 40px);
   }
+}
+
+.app-footer {
+  background: transparent;
+  border-top: 1px solid var(--border);
+  padding: 24px 0;
+  text-align: center;
+  margin-top: auto;
+}
+
+.app-footer-credit {
+  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  color: var(--text-hint);
+  margin: 0 0 8px 0;
+}
+
+.app-footer-email {
+  display: inline-block;
+  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.app-footer-email:hover {
+  color: var(--accent-warm);
+  text-decoration: underline;
 }

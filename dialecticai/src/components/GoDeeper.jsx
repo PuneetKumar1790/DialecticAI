@@ -92,7 +92,8 @@ function getBaseId(id) {
 export default function GoDeeper({
   philosopher,
   initialQuestion,
-  initialResponse
+  initialResponse,
+  onMessageCountChange
 }) {
   const [messages, setMessages] = useState([])
   const [inputValue, setInputValue] = useState("")
@@ -101,6 +102,7 @@ export default function GoDeeper({
   const [placeholderIndex, setPlaceholderIndex] = useState(0)
   const [isFocused, setIsFocused] = useState(false)
   const [trafficToast, setTrafficToast] = useState("")
+  const [sixPlusMessagesCalled, setSixPlusMessagesCalled] = useState(false)
   const endRef = useRef(null)
 
   const baseId = getBaseId(philosopher.id)
@@ -113,7 +115,15 @@ export default function GoDeeper({
       { role: "user", content: initialQuestion },
       { role: "assistant", content: initialResponse }
     ])
+    setSixPlusMessagesCalled(false)
   }, [initialQuestion, initialResponse])
+
+  useEffect(() => {
+    if (messages.length >= 6 && !sixPlusMessagesCalled && onMessageCountChange) {
+      setSixPlusMessagesCalled(true)
+      onMessageCountChange()
+    }
+  }, [messages.length, sixPlusMessagesCalled, onMessageCountChange])
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" })

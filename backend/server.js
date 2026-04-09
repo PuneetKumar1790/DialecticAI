@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import rateLimit from "express-rate-limit";
 import philosophersRouter from "./routes/philosophers.js";
 import responseRouter from "./routes/response.js";
 import healthRouter from "./routes/health.js";
@@ -9,6 +10,9 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// Needed for accurate client IPs behind Render/Vercel proxies.
+app.set("trust proxy", 1);
 
 function normalizeOrigin(origin) {
   return origin?.trim().replace(/\/$/, "");
@@ -58,6 +62,17 @@ const corsOptions = {
   credentials: true
 };
 
+const responseRateLimit = rateLimit({
+  windowMs: Number(process.env.RESPONSE_RATE_WINDOW_MS || 10 * 60 * 1000),
+  max: Number(process.env.RESPONSE_RATE_MAX || 60),
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    error: "Too many requests. Please wait before asking again.",
+    code: "too_many_requests"
+  }
+});
+
 // Middleware
 app.use(express.json());
 app.use(cors(corsOptions));
@@ -65,7 +80,7 @@ app.options("*", cors(corsOptions));
 
 // Routes
 app.use("/api/philosophers", philosophersRouter);
-app.use("/api/response", responseRouter);
+app.use("/api/response", responseRateLimit, responseRouter);
 app.use("/api/health", healthRouter);
 
 // Error handling middleware

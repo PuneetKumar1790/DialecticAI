@@ -274,6 +274,30 @@
   resize: none;
 }
 
+.submit-error {
+  margin: 12px 0 0;
+  border: 0.5px solid #9f3a32;
+  background: rgba(159, 58, 50, 0.08);
+  color: #c8493f;
+  padding: 10px 12px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.input-invalid {
+  border-color: #b3493f !important;
+  background: rgba(179, 73, 63, 0.06) !important;
+}
+
+.field-error {
+  margin: 8px 0 0;
+  color: #c8493f;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 .quick-mode textarea:focus-visible,
 .deep-mode textarea:focus-visible,
 .deep-mode input:focus-visible {
