@@ -15,31 +15,43 @@ function normalizeOrigin(origin) {
 }
 
 const rawAllowedOrigins =
-  process.env.FRONTEND_URLS || process.env.FRONTEND_URL || "http://localhost:5173";
+  process.env.FRONTEND_URLS ||
+  process.env.FRONTEND_URL ||
+  "http://localhost:5173,https://dialectic-ai.vercel.app";
 
 const allowedOrigins = rawAllowedOrigins
   .split(",")
   .map((origin) => normalizeOrigin(origin))
   .filter(Boolean);
 
+// Allow official deployment + Vercel preview URLs for this project.
+const vercelOriginPattern = /^https:\/\/dialectic-ai.*\.vercel\.app$/i;
+
+function isAllowedOrigin(origin) {
+  const normalizedOrigin = normalizeOrigin(origin);
+  if (!normalizedOrigin) return true;
+  if (allowedOrigins.includes(normalizedOrigin)) return true;
+  return vercelOriginPattern.test(normalizedOrigin);
+}
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow non-browser and same-origin requests that may not send Origin.
+    if (!origin) return callback(null, true);
+
+    if (isAllowedOrigin(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error(`CORS blocked for origin: ${origin}`));
+  },
+  credentials: true
+};
+
 // Middleware
 app.use(express.json());
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Allow non-browser and same-origin requests that may not send Origin.
-      if (!origin) return callback(null, true);
-
-      const normalizedOrigin = normalizeOrigin(origin);
-      if (allowedOrigins.includes(normalizedOrigin)) {
-        return callback(null, true);
-      }
-
-      return callback(new Error(`CORS blocked for origin: ${origin}`));
-    },
-    credentials: true
-  })
-);
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 // Routes
 app.use("/api/philosophers", philosophersRouter);
