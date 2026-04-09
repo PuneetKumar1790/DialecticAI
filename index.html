@@ -1253,7 +1253,14 @@
       }
 
       .scroll-cue {
-        bottom: 10px;
+        bottom: calc(10px + env(safe-area-inset-bottom));
+      }
+
+      .scroll-line {
+        width: 2px;
+        height: 28px;
+        background: var(--accent-warm);
+        box-shadow: 0 0 0 1px rgba(196, 168, 98, 0.18);
       }
 
       .demo-grid,
