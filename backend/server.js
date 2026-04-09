@@ -17,12 +17,22 @@ function normalizeOrigin(origin) {
 const rawAllowedOrigins =
   process.env.FRONTEND_URLS ||
   process.env.FRONTEND_URL ||
-  "http://localhost:5173,https://dialectic-ai.vercel.app";
+  "http://localhost:5173,https://dialectic-ai.vercel.app,https://dialecticai.puneetk.dev";
 
-const allowedOrigins = rawAllowedOrigins
-  .split(",")
+const requiredOrigins = [
+  "http://localhost:5173",
+  "https://dialectic-ai.vercel.app",
+  "https://dialecticai.puneetk.dev"
+];
+
+const allowedOrigins = [
+  ...rawAllowedOrigins.split(","),
+  ...requiredOrigins
+]
   .map((origin) => normalizeOrigin(origin))
   .filter(Boolean);
+
+const uniqueAllowedOrigins = [...new Set(allowedOrigins)];
 
 // Allow official deployment + Vercel preview URLs for this project.
 const vercelOriginPattern = /^https:\/\/dialectic-ai.*\.vercel\.app$/i;
@@ -30,7 +40,7 @@ const vercelOriginPattern = /^https:\/\/dialectic-ai.*\.vercel\.app$/i;
 function isAllowedOrigin(origin) {
   const normalizedOrigin = normalizeOrigin(origin);
   if (!normalizedOrigin) return true;
-  if (allowedOrigins.includes(normalizedOrigin)) return true;
+  if (uniqueAllowedOrigins.includes(normalizedOrigin)) return true;
   return vercelOriginPattern.test(normalizedOrigin);
 }
 
@@ -75,5 +85,5 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV}`);
-  console.log(`Allowed CORS origins: ${allowedOrigins.join(", ")}`);
+  console.log(`Allowed CORS origins: ${uniqueAllowedOrigins.join(", ")}`);
 });
