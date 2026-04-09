@@ -2,6 +2,6 @@
   "name": "dialecticai-root-build",
   "private": true,
   "scripts": {
-    "build": "npm install --prefix dialecticai --include=dev && npm run build --prefix dialecticai && rm -rf app && mkdir -p app && cp -R dialecticai/dist/. app/"
+    "build": "npm install --prefix dialecticai --include=dev && npm run build --prefix dialecticai && rm -rf public && mkdir -p public/app && cp index.html public/index.html && cp -R dialecticai/dist/. public/app/"
   }
 }
