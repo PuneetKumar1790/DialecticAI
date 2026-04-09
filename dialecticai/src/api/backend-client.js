@@ -1,7 +1,23 @@
 // API client for communicating with DialecticAI backend
 // Never expose API keys on frontend - they go through the backend
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000/api";
+const LOCAL_BACKEND_URL = "http://localhost:5000/api";
+const PROD_BACKEND_URL = "https://dialecticai-backend.onrender.com/api";
+
+const configuredBackendUrl = (import.meta.env.VITE_BACKEND_URL || "").trim();
+const isLocalHost =
+  typeof window !== "undefined" &&
+  (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
+
+const configuredPointsToLocalhost = /localhost|127\.0\.0\.1/.test(configuredBackendUrl);
+
+// Safety: if a localhost URL is accidentally configured in a production build,
+// use the deployed backend instead of failing in user browsers.
+const BACKEND_URL = (
+  !isLocalHost && configuredPointsToLocalhost
+    ? PROD_BACKEND_URL
+    : configuredBackendUrl || (isLocalHost ? LOCAL_BACKEND_URL : PROD_BACKEND_URL)
+).replace(/\/$/, "");
 
 export async function generateResponse(philosopherId, systemPrompt, userPrompt, model = "groq") {
   const res = await fetch(`${BACKEND_URL}/response/generate`, {
