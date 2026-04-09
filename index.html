@@ -189,7 +189,7 @@
 
     /* HERO */
     .hero {
-      min-height: 100vh;
+      min-height: 100svh;
       padding-top: 56px;
       display: grid;
       place-items: center;
@@ -224,6 +224,7 @@
       padding: 0 24px 36px;
       position: relative;
       z-index: 1;
+      transform: translateY(clamp(-26px, -1.6vh, -10px));
     }
 
     .hero-label,
@@ -238,7 +239,7 @@
     }
 
     .hero-label {
-      margin-bottom: 24px;
+      margin-bottom: 18px;
       font-size: 11px;
       letter-spacing: 0.2em;
       text-transform: uppercase;
@@ -263,12 +264,12 @@
     .hero-line-2 {
       color: var(--accent-warm);
       animation-delay: 400ms;
-      margin-bottom: 24px;
+      margin-bottom: 18px;
     }
 
     .hero-sub {
       max-width: 520px;
-      margin: 0 auto 48px;
+      margin: 0 auto 38px;
       color: var(--text-secondary);
       font-size: 18px;
       font-weight: 300;
@@ -278,7 +279,7 @@
 
     .hero-question-showcase {
       max-width: 600px;
-      margin: 0 auto 40px;
+      margin: 0 auto 30px;
       padding: 24px;
       border: 0.5px solid var(--border);
       border-radius: 2px;
@@ -344,13 +345,13 @@
     .hero-actions {
       display: flex;
       justify-content: center;
-      gap: 16px;
+      gap: 12px;
       animation-delay: 800ms;
       flex-wrap: wrap;
     }
 
     .hero-trust {
-      margin-top: 32px;
+      margin-top: 22px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -522,7 +523,7 @@
 
     /* PROBLEM */
     .problem {
-      padding: 120px 48px;
+      padding: 96px 48px;
     }
 
     .problem-inner {
@@ -584,7 +585,7 @@
       background: var(--bg-secondary);
       border-top: 0.5px solid var(--border);
       border-bottom: 0.5px solid var(--border);
-      padding: 100px 48px;
+      padding: 88px 48px;
     }
 
     .demo .label {
@@ -713,7 +714,7 @@
 
     /* MODES */
     .modes {
-      padding: 120px 48px;
+      padding: 96px 48px;
     }
 
     .modes h2 {
@@ -881,7 +882,7 @@
 
     /* QUOTES */
     .quotes {
-      padding: 120px 48px;
+      padding: 96px 48px;
     }
 
     .quotes h2 {
@@ -926,7 +927,7 @@
 
     /* HOW IT WORKS */
     .how {
-      padding: 120px 48px;
+      padding: 96px 48px;
     }
 
     .how h2 {
@@ -988,7 +989,7 @@
 
     /* FINAL CTA */
     .final-cta {
-      padding: 140px 48px;
+      padding: 112px 48px;
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -1202,6 +1203,7 @@
 
       .hero-content {
         padding: 0 20px 30px;
+        transform: none;
       }
 
       .hero-veritas,
