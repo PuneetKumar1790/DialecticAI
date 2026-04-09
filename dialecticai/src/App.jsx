@@ -61,12 +61,36 @@ export default function App() {
   const [goDeeperPhilosopher, setGoDeeperPhilosopher] = useState(null)
   const [goDeeperInitialQuestion, setGoDeeperInitialQuestion] = useState("")
   const [goDeeperInitialResponse, setGoDeeperInitialResponse] = useState("")
+  const [prefillBanner, setPrefillBanner] = useState("")
 
   const category = useMemo(() => CATEGORIES[selectedCategoryKey], [selectedCategoryKey])
   const selectedPhilosophers = useMemo(() => {
     if (!category) return []
     return category.philosophers.filter(philosopher => selectedIds.includes(philosopher.id))
   }, [category, selectedIds])
+
+  const currentStepIndex =
+    step === "categories"
+      ? 0
+      : step === "philosophers"
+        ? 1
+        : step === "input"
+          ? 2
+          : 3
+
+  const responseModeLabel =
+    step === "debate"
+      ? "Debate"
+      : step === "goDeeper"
+        ? "Go Deeper"
+        : "Perspectives"
+
+  const breadcrumbSteps = [
+    "Choose Category",
+    "Choose Philosophers",
+    "Your Question",
+    responseModeLabel
+  ]
 
   function getBaseId(id) {
     return id.replace(/_\w+$/, "")
@@ -387,63 +411,134 @@ export default function App() {
     setStep("goDeeper")
   }
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const prefillQuestion = params.get("q")
+
+    if (!prefillQuestion) return undefined
+
+    let decodedQuestion = prefillQuestion
+    try {
+      decodedQuestion = decodeURIComponent(prefillQuestion)
+    } catch {
+      decodedQuestion = prefillQuestion
+    }
+
+    setQuickValue(decodedQuestion)
+    setInputMode("quick")
+    setStep("input")
+    setPrefillBanner("Question brought from homepage")
+
+    const timer = window.setTimeout(() => setPrefillBanner(""), 3000)
+    return () => window.clearTimeout(timer)
+  }, [])
+
   return (
     <main className="app-shell">
-      <header className="hero-header">
-        <p className="eyebrow">NO LOGIN. NO CONSENSUS. JUST CLARITY.</p>
-        <h1>DialecticAI</h1>
-        <p className="hero-copy">
-          History&apos;s sharpest philosophers dissect your modern problem. Truth appears in contradiction.
-        </p>
+      <header className="app-nav">
+        {step === "goDeeper" ? (
+          <div className="app-nav-inner app-nav-deeper">
+            <button type="button" className="app-nav-back" onClick={() => setStep("perspectives")}>
+              ← Perspectives
+            </button>
+            <p className="app-nav-deeper-name" style={{ color: goDeeperPhilosopher?.color }}>
+              {goDeeperPhilosopher?.name}
+            </p>
+            <p className="app-nav-deeper-title">{goDeeperPhilosopher?.title}</p>
+          </div>
+        ) : (
+          <div className="app-nav-inner">
+            <a className="app-brand" href="/">
+              DialecticAI
+            </a>
+
+            <div className="app-breadcrumb" aria-label="Progress">
+              {breadcrumbSteps.map((label, index) => {
+                const stateClass = index < currentStepIndex ? "completed" : index === currentStepIndex ? "current" : "upcoming"
+                return (
+                  <span key={label} className={`crumb ${stateClass}`}>
+                    {label}
+                    {index < breadcrumbSteps.length - 1 && <span className="crumb-sep"> · </span>}
+                  </span>
+                )
+              })}
+            </div>
+
+            {(step === "perspectives" || step === "debate") && (
+              <span className="mode-pill">{responseModeLabel}</span>
+            )}
+          </div>
+        )}
       </header>
+
+      <div className="app-content">
 
       {toast && <div className="toast">{toast}</div>}
 
       {step === "categories" && (
-        <CategoryGrid
-          categories={CATEGORIES}
-          selectedCategory={selectedCategoryKey}
-          onSelect={handleCategorySelect}
-        />
+        <section className="screen-fade">
+          <CategoryGrid
+            categories={CATEGORIES}
+            selectedCategory={selectedCategoryKey}
+            onSelect={handleCategorySelect}
+          />
+        </section>
       )}
 
       {step === "philosophers" && category && (
-        <PhilosopherSelect
-          category={category}
-          selectedIds={selectedIds}
-          onToggle={togglePhilosopher}
-          onModeChoice={nextMode => {
-            setMode(nextMode)
-            setStep("input")
-          }}
-          onBack={() => setStep("categories")}
-        />
+        <section className="screen-fade">
+          <PhilosopherSelect
+            category={category}
+            selectedIds={selectedIds}
+            onToggle={togglePhilosopher}
+            onModeChoice={nextMode => {
+              setMode(nextMode)
+              setStep("input")
+            }}
+            onBack={() => setStep("categories")}
+          />
+        </section>
       )}
 
       {step === "input" && (
-        <InputPanel
-          inputMode={inputMode}
-          setInputMode={setInputMode}
-          quickValue={quickValue}
-          setQuickValue={setQuickValue}
-          deepValues={deepValues}
-          setDeepValues={setDeepValues}
-          onBack={() => setStep("philosophers")}
-          onSubmit={handleSubmit}
-          disabled={submitting}
-        />
+        <section className="screen-fade">
+          <InputPanel
+            inputMode={inputMode}
+            setInputMode={setInputMode}
+            quickValue={quickValue}
+            setQuickValue={setQuickValue}
+            deepValues={deepValues}
+            setDeepValues={setDeepValues}
+            onBack={() => setStep("philosophers")}
+            onSubmit={handleSubmit}
+            disabled={submitting}
+            selectedPhilosophers={selectedPhilosophers}
+            categoryKey={selectedCategoryKey}
+            prefillBanner={prefillBanner}
+          />
+        </section>
       )}
 
       {step === "perspectives" && (
-        <section className="responses-wrap">
+        <section className="responses-wrap screen-fade">
           <div className="section-header-row">
             <button type="button" className="ghost-btn" onClick={() => setStep("input")}>
-              ← Back
+              ← Edit Question
             </button>
           </div>
 
           <h2 className="section-title">Perspectives</h2>
-          <p className="asked-question">{question}</p>
+          <div className="question-recap-bar">
+            <p className="asked-question">{question}</p>
+            <div className="question-chip-row">
+              {selectedPhilosophers.map(philosopher => (
+                <span key={philosopher.id} className="question-chip">
+                  <span className="question-chip-dot" style={{ background: philosopher.color }} aria-hidden="true" />
+                  {philosopher.name}
+                </span>
+              ))}
+            </div>
+          </div>
 
           <div className="responses-list">
             {selectedPhilosophers.map(philosopher => (
@@ -462,15 +557,25 @@ export default function App() {
       )}
 
       {step === "debate" && (
-        <section>
+        <section className="screen-fade">
           <div className="section-header-row">
             <button type="button" className="ghost-btn" onClick={() => setStep("input")}>
-              ← Back
+              ← Edit Question
             </button>
           </div>
 
           <h2 className="section-title">Debate Arena</h2>
-          <p className="asked-question">{question}</p>
+          <div className="question-recap-bar">
+            <p className="asked-question">{question}</p>
+            <div className="question-chip-row">
+              {selectedPhilosophers.map(philosopher => (
+                <span key={philosopher.id} className="question-chip">
+                  <span className="question-chip-dot" style={{ background: philosopher.color }} aria-hidden="true" />
+                  {philosopher.name}
+                </span>
+              ))}
+            </div>
+          </div>
 
           <DebateArena
             philosophers={selectedPhilosophers}
@@ -487,13 +592,17 @@ export default function App() {
       )}
 
       {step === "goDeeper" && goDeeperPhilosopher && (
-        <GoDeeper
-          philosopher={goDeeperPhilosopher}
-          initialQuestion={goDeeperInitialQuestion}
-          initialResponse={goDeeperInitialResponse}
-          onClose={() => setStep("perspectives")}
-        />
+        <section className="screen-fade">
+          <GoDeeper
+            philosopher={goDeeperPhilosopher}
+            initialQuestion={goDeeperInitialQuestion}
+            initialResponse={goDeeperInitialResponse}
+            onClose={() => setStep("perspectives")}
+          />
+        </section>
       )}
+
+      </div>
 
       <DiogenesGate
         open={!!pendingDiogenes}

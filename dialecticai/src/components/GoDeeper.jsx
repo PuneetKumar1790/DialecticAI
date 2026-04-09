@@ -92,8 +92,7 @@ function getBaseId(id) {
 export default function GoDeeper({
   philosopher,
   initialQuestion,
-  initialResponse,
-  onClose
+  initialResponse
 }) {
   const [messages, setMessages] = useState([])
   const [inputValue, setInputValue] = useState("")
@@ -207,15 +206,6 @@ export default function GoDeeper({
 
   return (
     <section className="go-deeper-chat-wrap">
-      <header className="go-deeper-header">
-        <button type="button" className="go-deeper-back" onClick={onClose}>← Back</button>
-        <span className="go-deeper-color-dot" style={{ background: philosopher.color }} aria-hidden="true" />
-        <div className="go-deeper-philosopher-info">
-          <p className="go-deeper-name">{philosopher.name}</p>
-          <p className="go-deeper-title">{philosopher.title}</p>
-        </div>
-      </header>
-
       <p className="go-deeper-disclaimer">
         Speaking with {philosopher.name} as {philosopher.name === "de Beauvoir" ? "she" : "he"} would have spoken.
         Philosophical roleplay, not real advice.

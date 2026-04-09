@@ -1,11 +1,7 @@
-import { useEffect, useState } from "react"
-
-const QUICK_PLACEHOLDERS = [
-  "Should I quit my job and go solo?",
-  "My best friend betrayed my trust...",
-  "Is democracy actually broken?",
-  "I don't know who I am anymore..."
-]
+import { useRef } from "react"
+import { ALL_QUESTIONS, CATEGORY_QUESTIONS } from "../data/questions"
+import QuestionCycler from "./QuestionCycler"
+import SuggestedQuestions from "./SuggestedQuestions"
 
 export default function InputPanel({
   inputMode,
@@ -16,31 +12,77 @@ export default function InputPanel({
   setDeepValues,
   onBack,
   onSubmit,
-  disabled
+  disabled,
+  selectedPhilosophers,
+  categoryKey,
+  prefillBanner
 }) {
-  const [placeholderIndex, setPlaceholderIndex] = useState(0)
+  const quickTextareaRef = useRef(null)
+  const deepSituationRef = useRef(null)
 
-  useEffect(() => {
-    const id = setInterval(() => {
-      setPlaceholderIndex(prev => (prev + 1) % QUICK_PLACEHOLDERS.length)
-    }, 2400)
-
-    return () => clearInterval(id)
-  }, [])
+  const questionSource = categoryKey && CATEGORY_QUESTIONS[categoryKey]
+    ? CATEGORY_QUESTIONS[categoryKey]
+    : ALL_QUESTIONS
 
   function updateDeepField(field, value) {
     setDeepValues(prev => ({ ...prev, [field]: value }))
   }
 
+  function focusTextarea(ref) {
+    window.requestAnimationFrame(() => {
+      ref.current?.focus()
+      ref.current?.scrollIntoView({ behavior: "smooth", block: "center" })
+    })
+  }
+
+  function applyQuickQuestion(question) {
+    setQuickValue(question)
+    focusTextarea(quickTextareaRef)
+  }
+
+  function applyDeepQuestion(question) {
+    updateDeepField("situation", question)
+    focusTextarea(deepSituationRef)
+  }
+
+  function handleQuestionPick(question) {
+    if (inputMode === "deep") {
+      applyDeepQuestion(question)
+      return
+    }
+
+    applyQuickQuestion(question)
+  }
+
   return (
     <section className="input-panel-wrap">
+      {prefillBanner && <p className="prefill-banner">{prefillBanner}</p>}
+
       <div className="section-header-row">
         <button type="button" className="ghost-btn" onClick={onBack}>
-          ← Back
+          ← Philosophers
         </button>
       </div>
 
-      <h2 className="section-title">State The Problem</h2>
+      <div className="screen-heading center">
+        <p className="screen-eyebrow">— your situation —</p>
+        <h2 className="section-title">What are you dealing with?</h2>
+        <p className="section-subtitle">
+          Be specific. The more real it is, the sharper the response.
+        </p>
+      </div>
+
+      <div className="asking-strip">
+        <span className="asking-label">Asking:</span>
+        <div className="asking-chip-wrap">
+          {selectedPhilosophers.map(philosopher => (
+            <span key={philosopher.id} className="asking-chip">
+              <span className="asking-dot" style={{ background: philosopher.color }} aria-hidden="true" />
+              {philosopher.name}
+            </span>
+          ))}
+        </div>
+      </div>
 
       <div className="input-mode-toggle" role="tablist" aria-label="Input mode">
         <button
@@ -48,31 +90,55 @@ export default function InputPanel({
           className={inputMode === "quick" ? "active" : ""}
           onClick={() => setInputMode("quick")}
         >
-          Quick
+          <span>Quick</span>
+          <small>one question</small>
         </button>
         <button
           type="button"
           className={inputMode === "deep" ? "active" : ""}
           onClick={() => setInputMode("deep")}
         >
-          Deep
+          <span>Deep</span>
+          <small>full context</small>
         </button>
       </div>
 
       {inputMode === "quick" ? (
         <div className="quick-mode">
+          <QuestionCycler
+            questions={questionSource}
+            interval={4000}
+            onSelect={applyQuickQuestion}
+            categoryKey={categoryKey}
+          />
+
+          <div className="question-divider" aria-hidden="true">
+            <span>or write your own</span>
+          </div>
+
           <textarea
+            ref={quickTextareaRef}
             value={quickValue}
             onChange={e => setQuickValue(e.target.value)}
-            placeholder={QUICK_PLACEHOLDERS[placeholderIndex]}
+            placeholder="Write your question here..."
             rows={6}
           />
+
+          {quickValue.trim() && (
+            <p className="character-count">{quickValue.trim().length} characters</p>
+          )}
+
+          <SuggestedQuestions category={categoryKey} onSelect={handleQuestionPick} />
         </div>
       ) : (
         <div className="deep-mode">
+          <p className="deep-suggestions-label">suggested situations ↓</p>
+          <SuggestedQuestions category={categoryKey} onSelect={handleQuestionPick} />
+
           <label>
             What is your situation?
             <textarea
+              ref={deepSituationRef}
               rows={5}
               value={deepValues.situation}
               onChange={e => updateDeepField("situation", e.target.value)}
@@ -113,6 +179,10 @@ export default function InputPanel({
       >
         Ask the Philosophers →
       </button>
+
+      <p className="ask-note">
+        {selectedPhilosophers.length} philosophers will respond simultaneously
+      </p>
     </section>
   )
 }

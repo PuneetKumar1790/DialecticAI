@@ -56,8 +56,16 @@ export default function ResponseCard({
   return (
     <article className={`response-card ${state?.status === "done" ? "loaded" : ""}`}>
       <header className="response-card-header" style={{ borderLeftColor: philosopher.color }}>
-        <h3>{philosopher.name}</h3>
-        <span>{philosopher.title}</span>
+        <div className="response-head-left">
+          <span className="response-head-dot" style={{ background: philosopher.color }} aria-hidden="true" />
+          <div>
+            <h3>{philosopher.name}</h3>
+            <span>{philosopher.title}</span>
+          </div>
+        </div>
+        <p className="lens-label" style={{ color: philosopher.color }}>
+          {lensLabel}
+        </p>
       </header>
 
       <div className="response-card-body">
@@ -79,9 +87,6 @@ export default function ResponseCard({
 
         {!isLoading && !isError && (
           <>
-            <p className="lens-label" style={{ color: philosopher.color }}>
-              {lensLabel}
-            </p>
             <p className="response-text">
               {response || "This philosopher refused to answer."}
             </p>

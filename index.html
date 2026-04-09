@@ -275,6 +275,71 @@
       animation-delay: 600ms;
     }
 
+    .hero-question-showcase {
+      max-width: 600px;
+      margin: 0 auto 40px;
+      padding: 24px;
+      border: 0.5px solid var(--border);
+      border-radius: 2px;
+      background: var(--bg-card);
+      text-align: left;
+      position: relative;
+    }
+
+    .hero-question-label {
+      margin-bottom: 14px;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-hint);
+    }
+
+    .hero-question-text {
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      font-family: "Lora", serif;
+      font-style: italic;
+      font-size: 19px;
+      line-height: 1.75;
+      color: var(--text-primary);
+      opacity: 1;
+      transition: opacity 300ms ease;
+    }
+
+    .hero-question-text.hidden {
+      opacity: 0;
+    }
+
+    .hero-question-footer {
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hero-question-pill {
+      border: 0.5px solid var(--border);
+      border-radius: 100px;
+      padding: 3px 10px;
+      font-size: 10px;
+      color: var(--text-hint);
+      text-transform: lowercase;
+    }
+
+    .hero-question-link {
+      font-size: 11px;
+      color: var(--accent-warm-dim);
+      letter-spacing: 0.08em;
+      text-transform: lowercase;
+    }
+
+    .hero-question-link:hover {
+      color: var(--text-primary);
+    }
+
     .hero-actions {
       display: flex;
       justify-content: center;
@@ -1145,7 +1210,7 @@
   <nav class="nav" id="nav">
     <div class="nav-inner">
       <a class="brand" href="#">DialecticAI</a>
-      <a class="btn nav-cta" href="#">
+      <a class="btn nav-cta" href="/app">
         <span class="hide-mobile">Enter the Arena &rarr;</span>
         <span class="show-mobile">Enter &rarr;</span>
       </a>
@@ -1160,8 +1225,17 @@
       <h1 class="hero-headline hero-line-2">Just Clarity.</h1>
       <p class="hero-sub">History's sharpest philosophers dissect your modern problem. Truth appears in contradiction.</p>
 
+      <div class="hero-question-showcase" id="hero-question-showcase">
+        <div class="hero-question-label">people are asking</div>
+        <div class="hero-question-text" id="hero-question-text"></div>
+        <div class="hero-question-footer">
+          <span class="hero-question-pill" id="hero-question-pill"></span>
+          <a class="hero-question-link" id="hero-question-link" href="/app">ask this &rarr;</a>
+        </div>
+      </div>
+
       <div class="hero-actions">
-        <a class="btn btn-primary" href="#">Start for Free &rarr;</a>
+        <a class="btn btn-primary" href="/app">Start for Free &rarr;</a>
         <a class="btn btn-secondary" href="#demo">Watch it work &darr;</a>
       </div>
 
@@ -1263,42 +1337,42 @@ That contradiction is more useful than any single correct answer. Because real p
     <div class="demo-mock reveal" style="--delay: 200ms">
       <div class="question-bar">
         <span class="question-label">Question</span>
-        <span class="question-value">my girlfriend cheated on me</span>
+        <span class="question-value">I don't even know if the life I'm chasing is something I actually want.</span>
       </div>
 
       <div class="demo-grid">
         <article class="demo-card reveal" style="--accent: var(--socrates); --delay: 0ms">
           <h3 class="demo-head">Socrates · The Questioner</h3>
           <p class="demo-lens">via questioning</p>
-          <p class="demo-body">What is it about this that you call betrayal - is it the act itself, or the loss of what you believed existed? What is trust?</p>
+          <p class="demo-body">What is it that you are chasing - and who first told you it was worth chasing? If you already suspect the answer, what are you still waiting for permission to admit?</p>
           <a href="#" class="go-deeper-link">Go Deeper &rarr;</a>
         </article>
 
         <article class="demo-card reveal" style="--accent: var(--diogenes); --delay: 150ms">
           <h3 class="demo-head">Diogenes · The Cynic</h3>
           <p class="demo-lens">via rejection</p>
-          <p class="demo-body">Foolish love. Blind to reality. Find my lamp, then talk. Leave my barrel, begone.</p>
+          <p class="demo-body">Finally. An honest question. You built a cage. Called it ambition. Alexander had everything. Asked me for nothing. I had nothing. Needed less.</p>
           <a href="#" class="go-deeper-link">Go Deeper &rarr;</a>
         </article>
 
         <article class="demo-card reveal" style="--accent: var(--beauvoir); --delay: 300ms">
           <h3 class="demo-head">de Beauvoir · The Liberator</h3>
           <p class="demo-lens">via existential freedom</p>
-          <p class="demo-body">She treated you as an object, not a subject. That is the real betrayal - not the act, but the reduction of your personhood to a convenience.</p>
+          <p class="demo-body">You were handed a life and told to chase it. That is not ambition - that is obedience. The only question worth asking is not whether you want it. It is: what would you build if no one was watching?</p>
           <a href="#" class="go-deeper-link">Go Deeper &rarr;</a>
         </article>
 
         <article class="demo-card reveal" style="--accent: var(--confucius); --delay: 450ms">
           <h3 class="demo-head">Confucius · The Sage</h3>
           <p class="demo-lens">via relational duty</p>
-          <p class="demo-body">The duty of fidelity was broken. The door to reconciliation is closed until she demonstrates remorse. Act with character.</p>
+          <p class="demo-body">The wanting and the chasing are within your judgment. The life itself is not. Examine what you control: your effort, your attention, your next action. Begin there. The answer follows the doing.</p>
           <a href="#" class="go-deeper-link">Go Deeper &rarr;</a>
         </article>
       </div>
 
       <div class="synthesis reveal" style="--delay: 550ms">
         <span class="label">Synthesis</span>
-        <p>The tension is between understanding and leaving - whether clarity must precede action, or whether some betrayals make understanding irrelevant.</p>
+        <p>The tension is between inherited direction and chosen direction - whether the life being chased was ever examined, or simply accepted and accelerated.</p>
       </div>
     </div>
   </section>
@@ -1497,7 +1571,7 @@ That contradiction is more useful than any single correct answer. Because real p
     </h2>
     <p class="final-sub reveal" style="--delay: 200ms">Sixteen philosophers. Three modes. Zero cost.</p>
 
-    <a class="btn btn-primary reveal" href="#" style="padding: 16px 40px; font-size: 15px; letter-spacing: 0.04em; --delay: 300ms">Ask the Philosophers &rarr;</a>
+    <a class="btn btn-primary reveal" href="/app" style="padding: 16px 40px; font-size: 15px; letter-spacing: 0.04em; --delay: 300ms">Ask the Philosophers &rarr;</a>
 
     <div class="dots reveal" style="--delay: 400ms">
       <span style="--dot: var(--diogenes)"></span>
@@ -1522,6 +1596,184 @@ That contradiction is more useful than any single correct answer. Because real p
   </footer>
 
   <script>
+    (function () {
+      const QUESTION_BANK = {
+        existential: [
+          "I don't even know if the life I'm chasing is something I actually want.",
+          "I wake up every day performing a version of myself I don't recognize.",
+          "What if I'm not lost — what if I just hate where I'm going?",
+          "I've achieved everything I planned. Why does it feel like nothing?",
+          "I keep waiting for my real life to start. What if this is it?",
+          "I'm terrified that I'm ordinary and always will be.",
+          "If no one was watching my life, would I be living it differently?",
+          "I don't know if I believe in anything anymore.",
+          "I feel like I'm living someone else's dream and I can't find the exit.",
+          "What's the point of being successful if you're empty inside?"
+        ],
+        genz: [
+          "Social media is making me hate myself but I can't stop scrolling.",
+          "Everyone my age seems to be doing something meaningful. I'm just existing.",
+          "I don't know if I want a relationship or if I've just been told I should.",
+          "My anxiety is treated like a personality trait now. Is it?",
+          "I'm exhausted by being perceived.",
+          "I curate my life for people who don't actually care about me.",
+          "Everyone is building a personal brand. I don't even have a personal self.",
+          "I don't know if I'm depressed or if this is just what being alive feels like now.",
+          "Is it okay to want a quiet, unambitious life? Or is that giving up?",
+          "I romanticize the idea of disappearing and starting over somewhere no one knows me.",
+          "I feel guilty for not being more grateful when so many have less.",
+          "Dating apps have made me feel like a product. I hate it but I keep using them.",
+          "I'm afraid to commit to anything because what if something better comes along?",
+          "My parents sacrificed everything for me. I don't want what they wanted for me."
+        ],
+        career: [
+          "I'm good at my job but I dread every single Monday.",
+          "I took the safe job. Five years later I still resent myself for it.",
+          "My boss takes credit for my work. I say nothing. Every time.",
+          "I want to quit and start something but I'm terrified of failing publicly.",
+          "I work 70 hour weeks and still feel like I'm not doing enough.",
+          "Everyone around me is getting promoted. I'm just getting older.",
+          "I chose money over passion ten years ago. Now I have neither.",
+          "I'm underpaid and I know it. I still haven't asked for a raise.",
+          "Should I work for a company I believe in that pays less, or the opposite?",
+          "I've been in the same role for three years. Is loyalty stupid?"
+        ],
+        relationships: [
+          "I love someone who is completely wrong for me and I know it.",
+          "My closest friends are strangers to who I've become.",
+          "I keep attracting the same kind of person. It has to be me.",
+          "I've been alone for so long I'm not sure I know how to let someone in.",
+          "I stayed in a relationship too long out of fear of being alone.",
+          "I don't know if I actually love them or if I'm just comfortable.",
+          "My family has expectations of me that are slowly crushing me.",
+          "I'm loyal to people who would not do the same for me.",
+          "I forgave someone I shouldn't have. Now I can't respect myself.",
+          "I don't know how to love someone without losing myself."
+        ],
+        society: [
+          "Democracy feels broken but I don't know what to replace it with.",
+          "The news makes me furious but nothing I do seems to change anything.",
+          "Is capitalism the problem or am I just bad at it?",
+          "I benefit from systems I believe are unjust. What do I do with that?",
+          "Technology was supposed to free us. Why do I feel more trapped?",
+          "Meritocracy is a myth but I still believe in it. Am I stupid?",
+          "Is it possible to be truly ethical in an unethical system?",
+          "Everyone has strong opinions. No one changes their mind. What's the point?",
+          "Is nationalism dangerous or is globalism naive?",
+          "Social media has destroyed nuance. Can it be saved?"
+        ],
+        money: [
+          "I grew up poor. Now I have money and I don't trust it.",
+          "I want to be wealthy but I'm ashamed of wanting it.",
+          "I spend money to feel something. I know it's not working.",
+          "Is it ethical to be rich when others have nothing?",
+          "I know I should invest. I spend it anyway. Why?",
+          "I'd rather be broke doing something I love than rich doing something I don't.",
+          "Money has changed my relationships and I'm not sure it was worth it.",
+          "I'm financially successful by every metric. I feel like a fraud.",
+          "Should I chase financial security or meaning? Can I have both?",
+          "My worth feels tied to my net worth. I hate that about myself."
+        ],
+        morality: [
+          "I did something I'm not proud of and no one will ever know.",
+          "I watched someone being treated unfairly and said nothing.",
+          "Is it wrong to put yourself first when others are suffering?",
+          "I've lied to protect someone I love. Was it right?",
+          "I disagree with my culture's values but I still live by them.",
+          "How do I know if I'm a good person or just performing goodness?",
+          "I believe something is wrong but everyone around me accepts it.",
+          "I want to do the right thing but I don't know what that is anymore.",
+          "Is forgiveness something you owe someone or something you choose?",
+          "I've hurt someone. I've apologized. They haven't forgiven me. Now what?"
+        ]
+      }
+
+      const allQuestions = Object.values(QUESTION_BANK).flat()
+
+      function shuffleArray(arr) {
+        const shuffled = [...arr]
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1))
+          ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+        }
+        return shuffled
+      }
+
+      function getCategoryForQuestion(question) {
+        for (const [category, questions] of Object.entries(QUESTION_BANK)) {
+          if (questions.includes(question)) return category
+        }
+        return "all"
+      }
+
+      const textEl = document.getElementById("hero-question-text")
+      const pillEl = document.getElementById("hero-question-pill")
+      const linkEl = document.getElementById("hero-question-link")
+
+      let queue = shuffleArray(allQuestions)
+      let index = 0
+      let visible = true
+      let hover = false
+      let intervalId = null
+      let fadeOutId = null
+      let gapId = null
+
+      function renderQuestion() {
+        const question = queue[index] || allQuestions[0]
+        textEl.textContent = question
+        pillEl.textContent = getCategoryForQuestion(question)
+        linkEl.href = `/app?q=${encodeURIComponent(question)}`
+        textEl.classList.toggle("hidden", !visible)
+      }
+
+      function clearTimers() {
+        if (intervalId) window.clearInterval(intervalId)
+        if (fadeOutId) window.clearTimeout(fadeOutId)
+        if (gapId) window.clearTimeout(gapId)
+        intervalId = null
+        fadeOutId = null
+        gapId = null
+      }
+
+      function start() {
+        clearTimers()
+        if (hover || queue.length <= 1) return
+
+        intervalId = window.setInterval(() => {
+          visible = false
+          renderQuestion()
+
+          fadeOutId = window.setTimeout(() => {
+            index += 1
+            if (index >= queue.length) {
+              queue = shuffleArray(allQuestions)
+              index = 0
+            }
+
+            renderQuestion()
+
+            gapId = window.setTimeout(() => {
+              visible = true
+              renderQuestion()
+            }, 100)
+          }, 300)
+        }, 3500)
+      }
+
+      document.getElementById("hero-question-showcase").addEventListener("mouseenter", () => {
+        hover = true
+        start()
+      })
+
+      document.getElementById("hero-question-showcase").addEventListener("mouseleave", () => {
+        hover = false
+        start()
+      })
+
+      renderQuestion()
+      start()
+    })();
+  </script>
     (function () {
       const nav = document.getElementById("nav");
       const revealEls = Array.from(document.querySelectorAll(".reveal"));

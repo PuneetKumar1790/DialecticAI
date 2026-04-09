@@ -1,4 +1,13 @@
-function DebateColumn({ philosopher, messages = [], loading }) {
+import { LOADING_LINES } from "./ResponseCard"
+
+function getBaseId(id) {
+  return id.replace(/_\w+$/, "")
+}
+
+function DebateColumn({ philosopher, messages = [], loading, currentRound }) {
+  const baseId = getBaseId(philosopher.id)
+  const loadingLine = LOADING_LINES[baseId] || "Thinking..."
+
   return (
     <article className="debate-column" style={{ borderTopColor: philosopher.color }}>
       <header>
@@ -8,10 +17,17 @@ function DebateColumn({ philosopher, messages = [], loading }) {
 
       <div className="debate-stream">
         {messages.length === 0 && loading ? (
-          <div className="response-skeleton" />
+          <div className="debate-loading-wrap">
+            <div className="response-skeleton" />
+            <p className="response-loading-line">{loadingLine}</p>
+          </div>
         ) : (
           messages.map(entry => (
-            <div key={`${philosopher.id}-${entry.round}`} className="debate-message">
+            <div
+              key={`${philosopher.id}-${entry.round}`}
+              className={`debate-message ${entry.round === currentRound ? "current" : "past"}`}
+              style={{ opacity: entry.round === currentRound ? 1 : Math.max(0.5, 1 - (currentRound - entry.round) * 0.12) }}
+            >
               <p className="debate-round-tag">Round {entry.round}</p>
               <p>{entry.text}</p>
             </div>
@@ -33,21 +49,38 @@ export default function DebateArena({
   canGetVerdict,
   verdict
 }) {
+  const [philA, philB] = philosophers
+
   return (
     <section className="debate-arena">
       <div className="round-badge">Round {round} of {maxRound}</div>
+      <div className="round-dots" aria-hidden="true">
+        {Array.from({ length: maxRound }).map((_, index) => {
+          const dotRound = index + 1
+          const state = dotRound < round ? "done" : dotRound === round ? "current" : "future"
+          return <span key={dotRound} className={`round-dot ${state}`} />
+        })}
+      </div>
+
+      <div className="debate-versus-head">
+        <span className="debate-phil-a" style={{ color: philA?.color }}>{philA?.name}</span>
+        <span className="debate-vs">VS</span>
+        <span className="debate-phil-b" style={{ color: philB?.color }}>{philB?.name}</span>
+      </div>
 
       <div className="debate-grid">
         <DebateColumn
-          philosopher={philosophers[0]}
-          messages={messages[philosophers[0]?.id]}
+          philosopher={philA}
+          messages={messages[philA?.id]}
           loading={loading}
+          currentRound={round}
         />
         <div className="debate-vs-divider">VS</div>
         <DebateColumn
-          philosopher={philosophers[1]}
-          messages={messages[philosophers[1]?.id]}
+          philosopher={philB}
+          messages={messages[philB?.id]}
           loading={loading}
+          currentRound={round}
         />
       </div>
 
