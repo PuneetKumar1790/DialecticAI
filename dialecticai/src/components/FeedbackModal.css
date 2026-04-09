@@ -54,6 +54,17 @@
   font-weight: 400;
 }
 
+.feedback-anon-note {
+  margin: 0 0 24px;
+  color: #8a8680;
+  font-family: "DM Sans", sans-serif;
+  font-size: 11px;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.5;
+  text-align: center;
+}
+
 .feedback-modal-subtext {
   font-family: "DM Sans", sans-serif;
   font-size: 13px;

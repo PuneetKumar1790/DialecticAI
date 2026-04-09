@@ -208,6 +208,10 @@ export default function InputPanel({
         </div>
       )}
 
+      <p className="input-trust-note">
+        Your question is sent to the philosophers and then forgotten. Nothing is stored.
+      </p>
+
       <button
         type="button"
         className="primary-btn ask-btn"

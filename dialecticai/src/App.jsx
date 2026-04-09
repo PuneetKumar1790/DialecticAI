@@ -699,7 +699,7 @@ export default function App() {
             loading={debateLoading}
             onNextRound={handleNextRound}
             onGetVerdict={handleGetVerdict}
-            canGetVerdict={debateRound >= 3}
+            canGetVerdict={debateRound >= MAX_ROUNDS}
             verdict={verdict}
           />
         </section>
@@ -736,7 +736,6 @@ export default function App() {
       </div>
 
       <footer className="app-footer">
-        <p className="app-footer-credit">Built by Puneet · Delhi, India</p>
         <a href="mailto:puneetk49081@gmail.com" className="app-footer-email">puneetk49081@gmail.com</a>
       </footer>
 

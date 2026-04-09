@@ -351,14 +351,29 @@
 
     .hero-trust {
       margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-hint);
+      animation-delay: 900ms;
+    }
+
+    .hero-trust-row {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 14px;
-      color: var(--text-hint);
       font-size: 11px;
       letter-spacing: 0.01em;
-      animation-delay: 900ms;
+    }
+
+    .hero-trust-note {
+      font-size: 12px;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      line-height: 1.5;
+      color: var(--text-hint);
     }
 
     .trust-sep {
@@ -394,6 +409,62 @@
       border-bottom: 0.5px solid var(--border);
       padding: 20px 0;
       overflow: hidden;
+    }
+
+    /* TRUST STRIP */
+    .trust-strip {
+      margin: 0;
+      padding: 28px 48px;
+      background: var(--bg-primary);
+      border-top: 0.5px solid var(--border);
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .trust-strip-inner {
+      max-width: var(--max-wide);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .trust-strip-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      min-height: 48px;
+      padding: 0 24px;
+    }
+
+    .trust-strip-item:not(:last-child) {
+      border-right: 0.5px solid var(--border);
+    }
+
+    .trust-strip-icon {
+      margin-top: 1px;
+      flex-shrink: 0;
+      color: var(--accent-warm-dim);
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .trust-strip-copy {
+      min-width: 0;
+    }
+
+    .trust-strip-title {
+      margin: 0 0 4px;
+      color: var(--text-primary);
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .trust-strip-body {
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 300;
+      line-height: 1.6;
     }
 
     .marquee-wrap {
@@ -1008,6 +1079,15 @@
       align-items: flex-end;
     }
 
+    .footer-right {
+      margin: 0;
+      max-width: 420px;
+      text-align: right;
+      color: var(--text-hint);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
     .footer-brand {
       font-family: "Playfair Display", serif;
       font-style: italic;
@@ -1017,11 +1097,18 @@
     }
 
     .footer-note,
-    .footer-right,
     .footer-bottom {
       color: var(--text-hint);
       font-size: 12px;
       margin: 0;
+    }
+
+    .footer-feedback-note {
+      margin: 20px 0 8px;
+      text-align: center;
+      color: var(--text-hint);
+      font-size: 12px;
+      line-height: 1.6;
     }
 
     .footer-bottom {
@@ -1135,6 +1222,34 @@
         row-gap: 8px;
       }
 
+      .hero-trust-row {
+        flex-wrap: wrap;
+        row-gap: 8px;
+      }
+
+      .hero-trust-note {
+        text-align: center;
+      }
+
+      .trust-strip {
+        padding: 24px 20px;
+      }
+
+      .trust-strip-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .trust-strip-item {
+        padding: 0;
+      }
+
+      .trust-strip-item:not(:last-child) {
+        border-right: none;
+        border-bottom: 0.5px solid var(--border);
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+      }
+
       .scroll-cue {
         bottom: 10px;
       }
@@ -1191,6 +1306,10 @@
         text-align: center;
       }
 
+      .footer-right {
+        text-align: center;
+      }
+
       .nav-cta .hide-mobile {
         display: none;
       }
@@ -1241,11 +1360,14 @@
       </div>
 
       <div class="hero-trust" aria-label="Trust stats">
-        <span>Free forever</span>
-        <span class="trust-sep"></span>
-        <span>No signup</span>
-        <span class="trust-sep"></span>
-        <span>16 philosophers</span>
+        <div class="hero-trust-row">
+          <span>Free forever</span>
+          <span class="trust-sep"></span>
+          <span>No signup</span>
+          <span class="trust-sep"></span>
+          <span>16 philosophers</span>
+        </div>
+        <div class="hero-trust-note">Your words stay with you &middot; No conversations stored</div>
       </div>
     </div>
 
@@ -1305,6 +1427,34 @@
         <div class="chip"><span class="dot" style="--accent: var(--confucius)"></span><span class="chip-name">Confucius</span><span class="chip-tag">Relational duty</span></div>
         <span class="chip-sep">&mdash;</span>
         <div class="chip"><span class="dot" style="--accent: #5a4b74"></span><span class="chip-name">Sartre</span><span class="chip-tag">No excuses</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="trust-strip" aria-label="Quiet trust signals">
+    <div class="trust-strip-inner">
+      <div class="trust-strip-item">
+        <div class="trust-strip-icon" aria-hidden="true">○</div>
+        <div class="trust-strip-copy">
+          <p class="trust-strip-title">Conversations vanish</p>
+          <p class="trust-strip-body">Nothing you type is stored,<br />logged, or read by anyone.<br />Your session ends, it's gone.</p>
+        </div>
+      </div>
+
+      <div class="trust-strip-item">
+        <div class="trust-strip-icon" aria-hidden="true">◇</div>
+        <div class="trust-strip-copy">
+          <p class="trust-strip-title">Feedback is your choice</p>
+          <p class="trust-strip-body">After each session we ask<br />one optional question.<br />Skip it. No consequence.</p>
+        </div>
+      </div>
+
+      <div class="trust-strip-item">
+        <div class="trust-strip-icon" aria-hidden="true">∅</div>
+        <div class="trust-strip-copy">
+          <p class="trust-strip-title">No account, ever</p>
+          <p class="trust-strip-body">No email. No password.<br />No profile. You arrive<br />anonymous. You leave the same.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -1592,6 +1742,7 @@ That contradiction is more useful than any single correct answer. Because real p
         <p class="footer-note">Truth appears in contradiction.</p>
       </div>
     </div>
+    <p class="footer-feedback-note">We collect anonymous feedback only. No conversation data is ever stored.</p>
     <p class="footer-bottom">Free forever. No login. No consensus.</p>
   </footer>
 

@@ -74,6 +74,7 @@ export default function FeedbackModal({
 
         {!submitted ? (
           <>
+            <p className="feedback-anon-note">This is optional and completely anonymous. Skip it if you'd like.</p>
             <h3 className="feedback-modal-heading">Was this useful?</h3>
             <p className="feedback-modal-subtext">Takes 20 seconds. Helps me improve.</p>
 

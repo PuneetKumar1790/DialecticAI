@@ -466,9 +466,12 @@ a:focus-visible {
 
 .app-footer-credit {
   font-family: "DM Sans", sans-serif;
-  font-size: 13px;
+  font-size: 12px;
+  font-weight: 300;
   color: var(--text-hint);
-  margin: 0 0 8px 0;
+  margin: 0 auto 8px;
+  max-width: 640px;
+  line-height: 1.6;
 }
 
 .app-footer-email {

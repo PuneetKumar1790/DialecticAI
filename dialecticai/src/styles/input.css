@@ -259,6 +259,15 @@
   color: var(--accent-warm);
 }
 
+.input-trust-note {
+  margin: 0 0 12px;
+  text-align: center;
+  color: var(--text-hint);
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
 .quick-mode textarea,
 .deep-mode textarea,
 .deep-mode input {

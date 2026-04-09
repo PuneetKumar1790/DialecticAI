@@ -217,8 +217,7 @@ export default function GoDeeper({
   return (
     <section className="go-deeper-chat-wrap">
       <p className="go-deeper-disclaimer">
-        Speaking with {philosopher.name} as {philosopher.name === "de Beauvoir" ? "she" : "he"} would have spoken.
-        Philosophical roleplay, not real advice.
+        Speaking with {philosopher.name} as {philosopher.name === "de Beauvoir" ? "she" : "he"} would have spoken — philosophical roleplay, not real advice. This conversation is not stored.
       </p>
 
       <div className="go-deeper-messages">
